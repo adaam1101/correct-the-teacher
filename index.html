@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fix the Teacher — TFC English Game</title>
+  <style>
+    /* ── RESET & BASE ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1a3a6b;
+      --navy2:  #0f2549;
+      --blue:   #2563b0;
+      --gray:   #6b7a99;
+      --silver: #9ca3b0;
+      --light:  #eef2f8;
+      --white:  #ffffff;
+      --gold:   #c9a227;
+      --green:  #16a34a;
+      --red:    #dc2626;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(26,58,107,0.13);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      min-height: 100vh;
+    }
+
+    /* ── PAGES ──────────────────────────────────────── */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: flex; flex-direction: column; }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--navy2) 0%, var(--navy) 60%, var(--blue) 100%);
+      color: var(--white);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 72px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+    header .logo-wrap {
+      width: 52px; height: 52px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+    }
+    header .logo-wrap img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    header .logo-svg {
+      width: 44px; height: 44px;
+    }
+    header .site-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    header .site-subtitle {
+      font-size: 0.78rem;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+    header .spacer { flex: 1; }
+    header .nav-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    header .nav-btn:hover { background: rgba(255,255,255,0.28); }
+
+    /* ── ABOUT PAGE ─────────────────────────────────── */
+    .about-hero {
+      background: linear-gradient(160deg, var(--navy2) 0%, var(--navy) 50%, var(--blue) 100%);
+      color: var(--white);
+      padding: 60px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .about-logo-big {
+      width: 130px; height: 130px;
+      background: var(--white);
+      border-radius: 50%;
+      margin: 0 auto 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: 4px solid var(--gold);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+      position: relative; z-index: 1;
+    }
+    .about-logo-big img { width: 100%; height: 100%; object-fit: contain; }
+    .about-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .about-hero .tagline {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 32px;
+      position: relative; z-index: 1;
+    }
+    .stars-row {
+      display: flex; justify-content: center; gap: 6px;
+      margin-bottom: 32px;
+      position: relative; z-index: 1;
+    }
+    .stars-row span { color: var(--gold); font-size: 1.4rem; }
+
+    .about-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      max-width: 900px;
+      margin: -50px auto 0;
+      padding: 0 24px 60px;
+      position: relative; z-index: 2;
+    }
+    .about-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      flex: 1 1 260px;
+    }
+    .about-card .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .about-card h2 {
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .about-card p, .about-card li {
+      font-size: 0.93rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+    .about-card ul { padding-left: 18px; }
+    .about-card ul li { margin-bottom: 4px; }
+
+    .teacher-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .cta-wrap {
+      text-align: center;
+      padding: 0 24px 60px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border: none;
+      padding: 16px 48px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(26,58,107,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(26,58,107,0.45);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ── GAME PAGE ──────────────────────────────────── */
+    .game-header {
+      background: linear-gradient(135deg, var(--navy2), var(--navy));
+      color: var(--white);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .score-pill {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .score-pill span { color: var(--gold); }
+    .question-counter {
+      font-size: 0.88rem;
+      opacity: 0.8;
+    }
+    .streak-badge {
+      background: var(--gold);
+      color: var(--navy2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: none;
+    }
+    .streak-badge.show { display: inline-block; }
+
+    .progress-bar-wrap {
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+      height: 6px;
+      flex: 1;
+      min-width: 120px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    .game-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 24px 40px;
+    }
+
+    .difficulty-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .diff-easy   { background: #dcfce7; color: #16a34a; }
+    .diff-medium { background: #fef9c3; color: #ca8a04; }
+    .diff-hard   { background: #fee2e2; color: #dc2626; }
+
+    .question-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      max-width: 680px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+    .question-label {
+      font-size: 0.82rem;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .incorrect-sentence {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.5;
+      padding: 16px 20px;
+      background: #fef2f2;
+      border-left: 4px solid var(--red);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .incorrect-sentence::before {
+      content: '❌  ';
+    }
+    .grammar-hint {
+      font-size: 0.8rem;
+      color: var(--silver);
+      margin-bottom: 20px;
+    }
+
+    .answer-area {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .answer-area label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .answer-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #d1d9e8;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .answer-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,176,0.15);
+    }
+    .answer-input.correct {
+      border-color: var(--green);
+      background: #f0fdf4;
+    }
+    .answer-input.wrong {
+      border-color: var(--red);
+      background: #fef2f2;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-check {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border: none;
+      padding: 13px 32px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      flex: 1;
+    }
+    .btn-check:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-hint {
+      background: transparent;
+      color: var(--gray);
+      border: 2px solid #d1d9e8;
+      padding: 13px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-hint:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-hint:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── FEEDBACK BOX ───────────────────────────────── */
+    .feedback-box {
+      max-width: 680px;
+      width: 100%;
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      display: none;
+      animation: slideUp 0.25s ease;
+    }
+    .feedback-box.show { display: block; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .feedback-box.correct-fb {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+    }
+    .feedback-box.wrong-fb {
+      background: #fff7ed;
+      border: 2px solid #fed7aa;
+    }
+    .feedback-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feedback-title .pts {
+      margin-left: auto;
+      background: var(--navy);
+      color: var(--gold);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+    .feedback-body { font-size: 0.92rem; line-height: 1.6; color: #374151; }
+    .feedback-body .correct-line {
+      font-weight: 700;
+      color: var(--green);
+      margin: 6px 0;
+    }
+    .feedback-body .explain {
+      background: rgba(26,58,107,0.07);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: var(--navy);
+    }
+    .feedback-body .explain::before { content: '💡  '; }
+
+    .btn-next {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border: none;
+      padding: 13px 32px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 14px;
+      width: 100%;
+      transition: opacity 0.2s;
+    }
+    .btn-next:hover { opacity: 0.9; }
+
+    /* ── RESULTS PAGE ───────────────────────────────── */
+    .results-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px 60px;
+      text-align: center;
+    }
+    .result-circle {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy2), var(--blue));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      margin: 0 auto 28px;
+      box-shadow: 0 8px 32px rgba(26,58,107,0.35);
+      border: 4px solid var(--gold);
+    }
+    .result-score-num {
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--gold);
+    }
+    .result-score-max {
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+    .result-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .result-grade {
+      font-size: 1.1rem;
+      color: var(--blue);
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .result-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .stat-box {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 16px 24px;
+      box-shadow: var(--shadow);
+      min-width: 120px;
+    }
+    .stat-box .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--navy); }
+    .stat-box .stat-label { font-size: 0.78rem; color: var(--silver); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .mistakes-list {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      max-width: 680px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .mistakes-list h3 {
+      font-size: 1rem;
+      color: var(--navy);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .mistake-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.88rem;
+    }
+    .mistake-item:last-child { border-bottom: none; }
+    .mistake-item .mi-wrong { color: var(--red); text-decoration: line-through; }
+    .mistake-item .mi-right { color: var(--green); font-weight: 600; }
+    .mistake-item .mi-exp { color: var(--gray); font-size: 0.82rem; margin-top: 3px; }
+
+    .btn-restart {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border: none;
+      padding: 16px 48px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(26,58,107,0.3);
+      transition: transform 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn-restart:hover { transform: translateY(-2px); }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 600px) {
+      .about-hero h1 { font-size: 1.6rem; }
+      .question-card { padding: 20px; }
+      .incorrect-sentence { font-size: 1.05rem; }
+      .btn-row { flex-direction: column; }
+      .result-stats { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — ABOUT
+══════════════════════════════════════════════════ -->
+<div id="page-about" class="page active">
+  <div class="about-hero">
+    <div class="about-logo-big">
+      <img id="school-logo" src="tfc-logo.png" alt="TFC Logo"
+           onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';" />
+      <div id="logo-fallback" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; background:var(--navy);">
+        <svg viewBox="0 0 80 80" width="70" height="70">
+          <circle cx="40" cy="40" r="38" fill="none" stroke="#c9a227" stroke-width="3"/>
+          <text x="40" y="47" text-anchor="middle" fill="white" font-size="26" font-weight="900" font-family="Arial">TFC</text>
+        </svg>
+      </div>
+    </div>
+    <div class="teacher-badge">✏️ English Teacher</div>
+    <h1>Adam Ameyoud</h1>
+    <p class="tagline">Training Formation Center · ENSB Bouzeréah · Algeria</p>
+    <div class="stars-row">
+      <span>★</span><span>★</span><span>★</span>
+    </div>
+  </div>
+
+  <div class="about-cards">
+    <div class="about-card">
+      <div class="card-icon">👨‍🏫</div>
+      <h2>About Me</h2>
+      <p>My name is <strong>Adam Ameyoud</strong>. I'm 21 years old and passionate about teaching English in a modern, practical way. I believe every learner can master English with the right tools and motivation.</p>
+    </div>
+
+    <div class="about-card">
+      <div class="card-icon">🎓</div>
+      <h2>Education</h2>
+      <ul>
+        <li>3 years — <strong>University of Badji Mokhtar, Annaba</strong></li>
+        <li>Major: <strong>English Language</strong></li>
+        <li>Currently at <strong>ENSB — High Training School of Bouzeréah</strong></li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <div class="card-icon">🏫</div>
+      <h2>Teaching Experience</h2>
+      <p>Currently working as an English teacher student at the <strong>middle school</strong> level under the ENSB program, bringing modern, communicative techniques to the classroom.</p>
+    </div>
+
+    <div class="about-card" style="flex-basis: 100%;">
+      <div class="card-icon">🎮</div>
+      <h2>About This Game</h2>
+      <p style="margin-bottom:10px;">
+        <strong>Fix the Teacher</strong> is an interactive grammar game designed for adult English learners. You'll see sentences with real mistakes — the kind people make every day. Your job? Correct them before the teacher does!
+      </p>
+      <ul>
+        <li>20 carefully crafted sentences</li>
+        <li>Instant feedback with clear explanations</li>
+        <li>Score system with streak bonuses</li>
+        <li>Easy → Medium → Hard difficulty</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <button class="btn-primary" onclick="startGame()">🚀 Start the Game</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — GAME
+══════════════════════════════════════════════════ -->
+<div id="page-game" class="page">
+  <header>
+    <div class="logo-wrap">
+      <img src="tfc-logo.png" alt="TFC"
+           onerror="this.outerHTML='<svg class=\'logo-svg\' viewBox=\'0 0 80 80\'><circle cx=\'40\' cy=\'40\' r=\'38\' fill=\'#1a3a6b\' stroke=\'#c9a227\' stroke-width=\'3\'/><text x=\'40\' y=\'47\' text-anchor=\'middle\' fill=\'white\' font-size=\'22\' font-weight=\'900\' font-family=\'Arial\'>TFC</text></svg>'"/>
+    </div>
+    <div>
+      <div class="site-title">Fix the Teacher</div>
+      <div class="site-subtitle">TFC · Adam Ameyoud</div>
+    </div>
+    <div class="spacer"></div>
+    <button class="nav-btn" onclick="showPage('about')">👤 About</button>
+  </header>
+
+  <div class="game-header">
+    <div class="score-pill">Score: <span id="score-display">0</span></div>
+    <div class="question-counter" id="q-counter">Question 1 / 20</div>
+    <div class="streak-badge" id="streak-badge">🔥 <span id="streak-num">0</span> streak!</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="game-body">
+    <div class="difficulty-tag" id="diff-tag">Easy</div>
+
+    <div class="question-card">
+      <div class="question-label">The teacher wrote this — find the mistake:</div>
+      <div class="incorrect-sentence" id="incorrect-sent">Loading...</div>
+      <div class="grammar-hint" id="grammar-hint-area"></div>
+
+      <div class="answer-area">
+        <label for="answer-input">Your correction:</label>
+        <input type="text" id="answer-input" class="answer-input"
+               placeholder="Type the corrected sentence here..."
+               autocomplete="off" autocorrect="off" spellcheck="false" />
+        <div class="btn-row">
+          <button class="btn-check" id="btn-check" onclick="checkAnswer()">Check My Answer ✓</button>
+          <button class="btn-hint" id="btn-hint" onclick="showHint()">💡 Hint (−10 pts)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="feedback-box" id="feedback-box">
+      <div class="feedback-title" id="fb-title"></div>
+      <div class="feedback-body" id="fb-body"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next Question →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — RESULTS
+══════════════════════════════════════════════════ -->
+<div id="page-results" class="page">
+  <header>
+    <div class="logo-wrap">
+      <img src="tfc-logo.png" alt="TFC"
+           onerror="this.outerHTML='<svg class=\'logo-svg\' viewBox=\'0 0 80 80\'><circle cx=\'40\' cy=\'40\' r=\'38\' fill=\'#1a3a6b\' stroke=\'#c9a227\' stroke-width=\'3\'/><text x=\'40\' y=\'47\' text-anchor=\'middle\' fill=\'white\' font-size=\'22\' font-weight=\'900\' font-family=\'Arial\'>TFC</text></svg>'"/>
+    </div>
+    <div>
+      <div class="site-title">Fix the Teacher</div>
+      <div class="site-subtitle">TFC · Your Results</div>
+    </div>
+  </header>
+
+  <div class="results-body">
+    <div class="result-circle">
+      <div class="result-score-num" id="final-score">0</div>
+      <div class="result-score-max">/ 500 pts</div>
+    </div>
+
+    <div class="result-title" id="result-title">Well Done!</div>
+    <div class="result-grade" id="result-grade">Sharp Eye</div>
+
+    <div class="result-stats">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-correct">0</div>
+        <div class="stat-label">Correct</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-wrong">0</div>
+        <div class="stat-label">Missed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-accuracy">0%</div>
+        <div class="stat-label">Accuracy</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-best-streak">0</div>
+        <div class="stat-label">Best Streak</div>
+      </div>
+    </div>
+
+    <div class="mistakes-list" id="mistakes-list">
+      <h3>📋 Questions You Missed — Review & Learn</h3>
+      <div id="mistakes-content"></div>
+    </div>
+
+    <button class="btn-restart" onclick="startGame()">🔄 Play Again</button>
+    <button class="btn-restart" style="background:transparent; color:var(--navy); box-shadow:none; border:2px solid var(--navy);"
+            onclick="showPage('about')">🏠 Home</button>
+  </div>
+</div>
+
+
+<script>
+/* ── QUESTION DATA ─────────────────────────────── */
+const QUESTIONS = [
+  // EASY
+  {
+    wrong: "He go to work yesterday.",
+    right: "He went to work yesterday.",
+    explain: "Use the past simple 'went' — never the base form 'go' for past actions.",
+    category: "Past Simple",
+    diff: "easy"
+  },
+  {
+    wrong: "She don't like coffee.",
+    right: "She doesn't like coffee.",
+    explain: "Use 'doesn't' with he/she/it in present simple — 'don't' is for I/you/we/they.",
+    category: "Present Simple",
+    diff: "easy"
+  },
+  {
+    wrong: "We was very tired after the class.",
+    right: "We were very tired after the class.",
+    explain: "Use 'were' with we/you/they — 'was' is only for I/he/she/it.",
+    category: "To Be — Past",
+    diff: "easy"
+  },
+  {
+    wrong: "I didn't went to the meeting.",
+    right: "I didn't go to the meeting.",
+    explain: "After 'didn't', always use the base form of the verb, never past tense.",
+    category: "Past Simple — Negation",
+    diff: "easy"
+  },
+  {
+    wrong: "He have a lot of work today.",
+    right: "He has a lot of work today.",
+    explain: "With he/she/it in present simple, 'have' becomes 'has'.",
+    category: "Present Simple",
+    diff: "easy"
+  },
+  {
+    wrong: "I am agree with your idea.",
+    right: "I agree with your idea.",
+    explain: "'Agree' is a verb, not an adjective — never use 'am/is/are' before it.",
+    category: "Verb Usage",
+    diff: "easy"
+  },
+  {
+    wrong: "She can to speak English very well.",
+    right: "She can speak English very well.",
+    explain: "Modal verbs like 'can' are always followed by the bare infinitive, never 'to'.",
+    category: "Modal Verbs",
+    diff: "easy"
+  },
+  // MEDIUM
+  {
+    wrong: "I didn't saw him yesterday.",
+    right: "I didn't see him yesterday.",
+    explain: "After 'didn't', use the base form 'see' — 'saw' is past simple for positive sentences only.",
+    category: "Past Simple — Negation",
+    diff: "medium"
+  },
+  {
+    wrong: "We discussed about the problem.",
+    right: "We discussed the problem.",
+    explain: "'Discuss' is transitive — it never takes 'about' after it.",
+    category: "Verb + Preposition",
+    diff: "medium"
+  },
+  {
+    wrong: "He explained me the lesson.",
+    right: "He explained the lesson to me.",
+    explain: "'Explain' requires 'to' before the person: explain something TO someone.",
+    category: "Verb + Preposition",
+    diff: "medium"
+  },
+  {
+    wrong: "I look forward to see you soon.",
+    right: "I look forward to seeing you soon.",
+    explain: "After 'look forward to', use the -ing form because 'to' here is a preposition.",
+    category: "Gerund After Preposition",
+    diff: "medium"
+  },
+  {
+    wrong: "She very likes this course.",
+    right: "She really likes this course.",
+    explain: "'Very' modifies adjectives, not verbs — use 'really' to intensify a verb.",
+    category: "Adverb Usage",
+    diff: "medium"
+  },
+  {
+    wrong: "I have a big experience in teaching.",
+    right: "I have a lot of experience in teaching.",
+    explain: "'Experience' (uncountable) cannot be described as 'big' — use 'a lot of' instead.",
+    category: "Collocations",
+    diff: "medium"
+  },
+  {
+    wrong: "He don't understand the question.",
+    right: "He doesn't understand the question.",
+    explain: "Third person singular (he/she/it) needs 'doesn't' in present negative sentences.",
+    category: "Present Simple",
+    diff: "medium"
+  },
+  // HARD
+  {
+    wrong: "I am living here since 2 years.",
+    right: "I have been living here for 2 years.",
+    explain: "Use present perfect continuous + 'for' with a duration that continues to now.",
+    category: "Present Perfect Continuous",
+    diff: "hard"
+  },
+  {
+    wrong: "She told me she is busy yesterday.",
+    right: "She told me she was busy yesterday.",
+    explain: "Reported speech shifts the tense back — present 'is' becomes past 'was'.",
+    category: "Reported Speech",
+    diff: "hard"
+  },
+  {
+    wrong: "I enjoy to watch movies in English.",
+    right: "I enjoy watching movies in English.",
+    explain: "After 'enjoy', always use the -ing form, never the infinitive.",
+    category: "Gerund vs Infinitive",
+    diff: "hard"
+  },
+  {
+    wrong: "He is more taller than me.",
+    right: "He is taller than me.",
+    explain: "Never combine 'more' with a short adjective that already takes '-er' — that's a double comparative.",
+    category: "Comparatives",
+    diff: "hard"
+  },
+  {
+    wrong: "I didn't understood the exercise.",
+    right: "I didn't understand the exercise.",
+    explain: "After 'didn't', always use the base form — 'understood' is past tense/past participle.",
+    category: "Past Simple — Negation",
+    diff: "hard"
+  },
+  {
+    wrong: "If I will see him, I will tell him.",
+    right: "If I see him, I will tell him.",
+    explain: "In real conditionals, the if-clause uses present simple, never future 'will'.",
+    category: "Conditionals",
+    diff: "hard"
+  }
+];
+
+/* ── GAME STATE ────────────────────────────────── */
+let state = {
+  questions: [],
+  index: 0,
+  score: 0,
+  streak: 0,
+  bestStreak: 0,
+  correct: 0,
+  wrong: 0,
+  hintUsed: false,
+  answered: false,
+  missedList: []
+};
+
+/* ── PAGE NAVIGATION ───────────────────────────── */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ── GAME INIT ─────────────────────────────────── */
+function startGame() {
+  state.questions = shuffle([...QUESTIONS]);
+  state.index = 0;
+  state.score = 0;
+  state.streak = 0;
+  state.bestStreak = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.missedList = [];
+  showPage('game');
+  loadQuestion();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function loadQuestion() {
+  const q = state.questions[state.index];
+  state.hintUsed = false;
+  state.answered = false;
+
+  // Header
+  document.getElementById('q-counter').textContent =
+    `Question ${state.index + 1} / ${state.questions.length}`;
+  document.getElementById('score-display').textContent = state.score;
+  document.getElementById('progress-fill').style.width =
+    `${(state.index / state.questions.length) * 100}%`;
+
+  // Streak badge
+  const badge = document.getElementById('streak-badge');
+  if (state.streak >= 2) {
+    badge.classList.add('show');
+    document.getElementById('streak-num').textContent = state.streak;
+  } else {
+    badge.classList.remove('show');
+  }
+
+  // Difficulty tag
+  const tag = document.getElementById('diff-tag');
+  tag.textContent = q.diff.charAt(0).toUpperCase() + q.diff.slice(1);
+  tag.className = 'difficulty-tag diff-' + q.diff;
+
+  // Question
+  document.getElementById('incorrect-sent').textContent = q.wrong;
+  document.getElementById('grammar-hint-area').textContent = `Category: ${q.category}`;
+
+  // Input
+  const input = document.getElementById('answer-input');
+  input.value = '';
+  input.className = 'answer-input';
+  input.disabled = false;
+  input.focus();
+
+  // Buttons
+  document.getElementById('btn-check').disabled = false;
+  document.getElementById('btn-hint').disabled = false;
+  document.getElementById('btn-hint').textContent = '💡 Hint (−10 pts)';
+
+  // Hide feedback
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box';
+}
+
+/* ── HINT ──────────────────────────────────────── */
+function showHint() {
+  if (state.hintUsed) return;
+  state.hintUsed = true;
+  const q = state.questions[state.index];
+  document.getElementById('grammar-hint-area').textContent =
+    `💡 Hint: ${q.explain}`;
+  document.getElementById('btn-hint').disabled = true;
+  document.getElementById('btn-hint').textContent = 'Hint used';
+}
+
+/* ── ANSWER CHECK ──────────────────────────────── */
+function normalise(str) {
+  return str.trim().toLowerCase()
+    .replace(/[.,!?;:]+$/g, '')
+    .replace(/\s+/g, ' ');
+}
+
+function checkAnswer() {
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = state.questions[state.index];
+  const input = document.getElementById('answer-input');
+  const userAnswer = input.value;
+
+  if (!userAnswer.trim()) {
+    state.answered = false;
+    input.focus();
+    return;
+  }
+
+  const isCorrect = normalise(userAnswer) === normalise(q.right);
+  const pts = isCorrect ? (state.hintUsed ? 10 : 20) : 0;
+
+  if (isCorrect) {
+    state.correct++;
+    state.streak++;
+    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+
+    let bonusPts = 0;
+    if (state.streak > 0 && state.streak % 3 === 0) bonusPts = 15;
+    state.score += pts + bonusPts;
+
+    input.className = 'answer-input correct';
+    showFeedback(true, pts, bonusPts, q);
+  } else {
+    state.wrong++;
+    state.streak = 0;
+    state.missedList.push(q);
+
+    input.className = 'answer-input wrong';
+    showFeedback(false, 0, 0, q);
+  }
+
+  document.getElementById('score-display').textContent = state.score;
+  document.getElementById('btn-check').disabled = true;
+  document.getElementById('btn-hint').disabled = true;
+
+  const badge = document.getElementById('streak-badge');
+  if (state.streak >= 2) {
+    badge.classList.add('show');
+    document.getElementById('streak-num').textContent = state.streak;
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function showFeedback(correct, pts, bonus, q) {
+  const fb = document.getElementById('feedback-box');
+  const title = document.getElementById('fb-title');
+  const body = document.getElementById('fb-body');
+
+  if (correct) {
+    fb.className = 'feedback-box show correct-fb';
+    let titleText = pts === 10
+      ? '✅ Correct! (Hint used)'
+      : '✅ Nice Catch!';
+    let ptsText = `+${pts}${bonus ? ' + 🔥 +' + bonus + ' streak' : ''}`;
+    title.innerHTML = `${titleText} <span class="pts">${ptsText}</span>`;
+    body.innerHTML = `
+      <div class="correct-line">✔ ${q.right}</div>
+      <div class="explain">${q.explain}</div>
+    `;
+  } else {
+    fb.className = 'feedback-box show wrong-fb';
+    title.innerHTML = `❌ Not quite — here's the correction:`;
+    body.innerHTML = `
+      <div class="correct-line">✔ ${q.right}</div>
+      <div class="explain">${q.explain}</div>
+    `;
+  }
+
+  const nextBtn = document.getElementById('btn-next');
+  if (state.index >= state.questions.length - 1) {
+    nextBtn.textContent = 'See My Results 🏆';
+  } else {
+    nextBtn.textContent = 'Next Question →';
+  }
+}
+
+/* ── NEXT QUESTION ─────────────────────────────── */
+function nextQuestion() {
+  state.index++;
+  if (state.index >= state.questions.length) {
+    showResults();
+  } else {
+    loadQuestion();
+  }
+}
+
+/* ── RESULTS ───────────────────────────────────── */
+function showResults() {
+  document.getElementById('progress-fill').style.width = '100%';
+
+  document.getElementById('final-score').textContent = state.score;
+  document.getElementById('stat-correct').textContent = state.correct;
+  document.getElementById('stat-wrong').textContent = state.wrong;
+  document.getElementById('stat-accuracy').textContent =
+    Math.round((state.correct / state.questions.length) * 100) + '%';
+  document.getElementById('stat-best-streak').textContent = state.bestStreak;
+
+  const maxScore = state.questions.length * 20;
+  const pct = state.score / maxScore;
+  let grade, emoji;
+  if (pct >= 0.9)      { grade = 'Master Corrector';  emoji = '🏆'; }
+  else if (pct >= 0.7) { grade = 'Sharp Eye';          emoji = '👁️'; }
+  else if (pct >= 0.5) { grade = 'Getting There';      emoji = '📈'; }
+  else                 { grade = 'Keep Practising';    emoji = '💪'; }
+
+  document.getElementById('result-title').textContent = `${emoji} ${grade}`;
+  document.getElementById('result-grade').textContent =
+    `${state.correct} / ${state.questions.length} correct · ${state.score} points`;
+
+  const missedDiv = document.getElementById('mistakes-content');
+  const listWrap = document.getElementById('mistakes-list');
+
+  if (state.missedList.length === 0) {
+    listWrap.style.display = 'none';
+  } else {
+    listWrap.style.display = 'block';
+    missedDiv.innerHTML = state.missedList.map(q => `
+      <div class="mistake-item">
+        <div class="mi-wrong">❌ ${q.wrong}</div>
+        <div class="mi-right">✅ ${q.right}</div>
+        <div class="mi-exp">${q.explain}</div>
+      </div>
+    `).join('');
+  }
+
+  showPage('results');
+}
+
+/* ── KEYBOARD SUPPORT ──────────────────────────── */
+document.getElementById('answer-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    if (!state.answered) {
+      checkAnswer();
+    } else {
+      nextQuestion();
+    }
+  }
+});
+</script>
+</body>
+</html>
