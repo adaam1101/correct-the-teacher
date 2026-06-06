@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fix the Teacher — TFC English Game</title>
+  <title>TFC English Games — Adam Ameyoud</title>
   <style>
     /* ── RESET & BASE ───────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,6 +19,8 @@
       --gold:   #c9a227;
       --green:  #16a34a;
       --red:    #dc2626;
+      --orange: #ea580c;
+      --purple: #7c3aed;
       --radius: 14px;
       --shadow: 0 4px 24px rgba(26,58,107,0.13);
     }
@@ -30,11 +32,10 @@
       min-height: 100vh;
     }
 
-    /* ── PAGES ──────────────────────────────────────── */
     .page { display: none; min-height: 100vh; }
     .page.active { display: flex; flex-direction: column; }
 
-    /* ── HEADER ─────────────────────────────────────── */
+    /* ── SHARED HEADER ──────────────────────────────── */
     header {
       background: linear-gradient(135deg, var(--navy2) 0%, var(--navy) 60%, var(--blue) 100%);
       color: var(--white);
@@ -44,6 +45,7 @@
       gap: 16px;
       min-height: 72px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      flex-shrink: 0;
     }
     header .logo-wrap {
       width: 52px; height: 52px;
@@ -54,41 +56,28 @@
       overflow: hidden;
       border: 2px solid var(--gold);
     }
-    header .logo-wrap img {
-      width: 100%; height: 100%; object-fit: contain;
-    }
-    header .logo-svg {
-      width: 44px; height: 44px;
-    }
-    header .site-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    header .site-subtitle {
-      font-size: 0.78rem;
-      opacity: 0.75;
-      margin-top: 2px;
-    }
+    header .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    header .site-title { font-size: 1.2rem; font-weight: 700; }
+    header .site-subtitle { font-size: 0.76rem; opacity: 0.72; margin-top: 2px; }
     header .spacer { flex: 1; }
     header .nav-btn {
       background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.3);
       color: var(--white);
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 600;
       transition: background 0.2s;
     }
     header .nav-btn:hover { background: rgba(255,255,255,0.28); }
 
-    /* ── ABOUT PAGE ─────────────────────────────────── */
+    /* ── ABOUT / HOME ───────────────────────────────── */
     .about-hero {
       background: linear-gradient(160deg, var(--navy2) 0%, var(--navy) 50%, var(--blue) 100%);
       color: var(--white);
-      padding: 60px 24px 80px;
+      padding: 56px 24px 80px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -102,7 +91,7 @@
       width: 130px; height: 130px;
       background: var(--white);
       border-radius: 50%;
-      margin: 0 auto 28px;
+      margin: 0 auto 24px;
       display: flex; align-items: center; justify-content: center;
       border: 4px solid var(--gold);
       box-shadow: 0 8px 32px rgba(0,0,0,0.25);
@@ -110,159 +99,158 @@
       position: relative; z-index: 1;
     }
     .about-logo-big img { width: 100%; height: 100%; object-fit: contain; }
-    .about-hero h1 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 6px;
+    .teacher-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;
       position: relative; z-index: 1;
     }
-    .about-hero .tagline {
-      font-size: 1rem;
-      opacity: 0.8;
-      margin-bottom: 32px;
-      position: relative; z-index: 1;
-    }
-    .stars-row {
-      display: flex; justify-content: center; gap: 6px;
-      margin-bottom: 32px;
-      position: relative; z-index: 1;
-    }
-    .stars-row span { color: var(--gold); font-size: 1.4rem; }
+    .about-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; position: relative; z-index: 1; }
+    .about-hero .tagline { font-size: 0.95rem; opacity: 0.78; margin-bottom: 20px; position: relative; z-index: 1; }
+    .stars-row { display: flex; justify-content: center; gap: 6px; position: relative; z-index: 1; }
+    .stars-row span { color: var(--gold); font-size: 1.3rem; }
 
     .about-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
+      display: flex; flex-wrap: wrap; gap: 20px;
       max-width: 900px;
-      margin: -50px auto 0;
-      padding: 0 24px 60px;
+      margin: -44px auto 0;
+      padding: 0 20px 40px;
       position: relative; z-index: 2;
     }
     .about-card {
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 28px 24px;
-      flex: 1 1 260px;
+      padding: 24px 22px;
+      flex: 1 1 240px;
     }
-    .about-card .card-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-    .about-card h2 {
-      font-size: 1.1rem;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-    .about-card p, .about-card li {
-      font-size: 0.93rem;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-    .about-card ul { padding-left: 18px; }
-    .about-card ul li { margin-bottom: 4px; }
+    .about-card .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .about-card h2 { font-size: 1.05rem; color: var(--navy); margin-bottom: 8px; }
+    .about-card p, .about-card li { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
+    .about-card ul { padding-left: 16px; }
+    .about-card ul li { margin-bottom: 3px; }
 
-    .teacher-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      margin-bottom: 12px;
+    /* ── GAME SELECTOR ──────────────────────────────── */
+    .game-selector {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 56px;
     }
-
-    .cta-wrap {
+    .game-selector h2 {
       text-align: center;
-      padding: 0 24px 60px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      border: none;
-      padding: 16px 48px;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      color: var(--navy);
+      margin-bottom: 20px;
       font-weight: 700;
-      border-radius: 50px;
+    }
+    .game-cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .game-card {
+      flex: 1 1 280px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      text-align: center;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(26,58,107,0.35);
       transition: transform 0.2s, box-shadow 0.2s;
-      letter-spacing: 0.5px;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(26,58,107,0.45);
+    .game-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
     }
-    .btn-primary:active { transform: translateY(0); }
+    .game-card.fix::before { background: linear-gradient(90deg, var(--navy), var(--blue)); }
+    .game-card.flash::before { background: linear-gradient(90deg, var(--purple), var(--orange)); }
+    .game-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(26,58,107,0.18); }
+    .game-card .gc-icon { font-size: 2.8rem; margin-bottom: 14px; }
+    .game-card h3 { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .game-card p { font-size: 0.88rem; color: var(--gray); line-height: 1.5; margin-bottom: 18px; }
+    .gc-tag {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .game-card.fix .gc-tag { background: #dbeafe; color: var(--blue); }
+    .game-card.flash .gc-tag { background: #ede9fe; color: var(--purple); }
+    .gc-btn {
+      display: block;
+      width: 100%;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--white);
+      transition: opacity 0.2s;
+    }
+    .game-card.fix .gc-btn { background: linear-gradient(135deg, var(--navy), var(--blue)); }
+    .game-card.flash .gc-btn { background: linear-gradient(135deg, var(--purple), var(--orange)); }
+    .gc-btn:hover { opacity: 0.88; }
 
-    /* ── GAME PAGE ──────────────────────────────────── */
+    /* ── SHARED GAME HEADER BAR ─────────────────────── */
     .game-header {
       background: linear-gradient(135deg, var(--navy2), var(--navy));
       color: var(--white);
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
+      flex-shrink: 0;
     }
     .score-pill {
       background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.25);
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 20px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
     }
     .score-pill span { color: var(--gold); }
-    .question-counter {
-      font-size: 0.88rem;
-      opacity: 0.8;
-    }
+    .question-counter { font-size: 0.85rem; opacity: 0.8; }
     .streak-badge {
-      background: var(--gold);
-      color: var(--navy2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      display: none;
+      background: var(--gold); color: var(--navy2);
+      padding: 3px 11px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 800; display: none;
     }
     .streak-badge.show { display: inline-block; }
-
     .progress-bar-wrap {
       background: rgba(255,255,255,0.2);
-      border-radius: 4px;
-      height: 6px;
-      flex: 1;
-      min-width: 120px;
+      border-radius: 4px; height: 6px;
+      flex: 1; min-width: 100px;
     }
     .progress-bar-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 4px;
-      transition: width 0.4s ease;
+      height: 100%; background: var(--gold);
+      border-radius: 4px; transition: width 0.4s ease;
     }
 
+    /* ── FIX THE TEACHER GAME ───────────────────────── */
     .game-body {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 32px 24px 40px;
+      padding: 28px 20px 40px;
     }
-
     .difficulty-tag {
       display: inline-block;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
+      padding: 4px 14px; border-radius: 20px;
+      font-size: 0.76rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 14px;
     }
     .diff-easy   { background: #dcfce7; color: #16a34a; }
     .diff-medium { background: #fef9c3; color: #ca8a04; }
@@ -272,299 +260,323 @@
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 32px;
-      max-width: 680px;
-      width: 100%;
-      margin-bottom: 24px;
-    }
-    .question-label {
-      font-size: 0.82rem;
-      color: var(--silver);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    .incorrect-sentence {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--navy);
-      line-height: 1.5;
-      padding: 16px 20px;
-      background: #fef2f2;
-      border-left: 4px solid var(--red);
-      border-radius: 8px;
-      margin-bottom: 8px;
-    }
-    .incorrect-sentence::before {
-      content: '❌  ';
-    }
-    .grammar-hint {
-      font-size: 0.8rem;
-      color: var(--silver);
+      padding: 28px;
+      max-width: 680px; width: 100%;
       margin-bottom: 20px;
     }
+    .question-label {
+      font-size: 0.78rem; color: var(--silver);
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 10px; font-weight: 600;
+    }
+    .incorrect-sentence {
+      font-size: 1.2rem; font-weight: 600; color: var(--navy);
+      line-height: 1.5; padding: 14px 18px;
+      background: #fef2f2; border-left: 4px solid var(--red);
+      border-radius: 8px; margin-bottom: 8px;
+    }
+    .incorrect-sentence::before { content: '❌  '; }
+    .grammar-hint { font-size: 0.78rem; color: var(--silver); margin-bottom: 18px; }
 
-    .answer-area {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .answer-area label {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--navy);
-    }
+    .answer-area { display: flex; flex-direction: column; gap: 10px; }
+    .answer-area label { font-size: 0.86rem; font-weight: 600; color: var(--navy); }
     .answer-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #d1d9e8;
-      border-radius: 10px;
-      font-size: 1rem;
-      color: var(--navy);
-      background: var(--white);
+      width: 100%; padding: 13px 15px;
+      border: 2px solid #d1d9e8; border-radius: 10px;
+      font-size: 1rem; color: var(--navy);
+      background: var(--white); outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
     }
-    .answer-input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(37,99,176,0.15);
-    }
-    .answer-input.correct {
-      border-color: var(--green);
-      background: #f0fdf4;
-    }
-    .answer-input.wrong {
-      border-color: var(--red);
-      background: #fef2f2;
-    }
+    .answer-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,176,0.15); }
+    .answer-input.correct { border-color: var(--green); background: #f0fdf4; }
+    .answer-input.wrong   { border-color: var(--red);   background: #fef2f2; }
 
-    .btn-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .btn-check {
       background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      border: none;
-      padding: 13px 32px;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
+      color: var(--white); border: none;
+      padding: 12px 28px; font-size: 0.95rem; font-weight: 700;
+      border-radius: 10px; cursor: pointer; flex: 1;
       transition: opacity 0.2s, transform 0.15s;
-      flex: 1;
     }
     .btn-check:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-hint {
-      background: transparent;
-      color: var(--gray);
+      background: transparent; color: var(--gray);
       border: 2px solid #d1d9e8;
-      padding: 13px 20px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
+      padding: 12px 18px; font-size: 0.85rem; font-weight: 600;
+      border-radius: 10px; cursor: pointer;
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-hint:hover { border-color: var(--blue); color: var(--blue); }
     .btn-hint:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ── FEEDBACK BOX ───────────────────────────────── */
     .feedback-box {
-      max-width: 680px;
-      width: 100%;
-      border-radius: var(--radius);
-      padding: 22px 26px;
-      display: none;
-      animation: slideUp 0.25s ease;
+      max-width: 680px; width: 100%;
+      border-radius: var(--radius); padding: 20px 24px;
+      display: none; animation: slideUp 0.22s ease;
     }
     .feedback-box.show { display: block; }
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .feedback-box.correct-fb {
-      background: #f0fdf4;
-      border: 2px solid #86efac;
-    }
-    .feedback-box.wrong-fb {
-      background: #fff7ed;
-      border: 2px solid #fed7aa;
-    }
+    .feedback-box.correct-fb { background: #f0fdf4; border: 2px solid #86efac; }
+    .feedback-box.wrong-fb   { background: #fff7ed; border: 2px solid #fed7aa; }
     .feedback-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1rem; font-weight: 800; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
     }
     .feedback-title .pts {
       margin-left: auto;
-      background: var(--navy);
-      color: var(--gold);
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.82rem;
+      background: var(--navy); color: var(--gold);
+      padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;
     }
-    .feedback-body { font-size: 0.92rem; line-height: 1.6; color: #374151; }
-    .feedback-body .correct-line {
-      font-weight: 700;
-      color: var(--green);
-      margin: 6px 0;
-    }
+    .feedback-body { font-size: 0.9rem; line-height: 1.6; color: #374151; }
+    .feedback-body .correct-line { font-weight: 700; color: var(--green); margin: 6px 0; }
     .feedback-body .explain {
       background: rgba(26,58,107,0.07);
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-      font-size: 0.88rem;
-      color: var(--navy);
+      padding: 7px 12px; border-radius: 8px;
+      margin-top: 7px; font-size: 0.86rem; color: var(--navy);
     }
     .feedback-body .explain::before { content: '💡  '; }
-
     .btn-next {
       background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      border: none;
-      padding: 13px 32px;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 14px;
-      width: 100%;
-      transition: opacity 0.2s;
+      color: var(--white); border: none;
+      padding: 12px 28px; font-size: 0.95rem; font-weight: 700;
+      border-radius: 10px; cursor: pointer;
+      margin-top: 12px; width: 100%; transition: opacity 0.2s;
     }
     .btn-next:hover { opacity: 0.9; }
 
     /* ── RESULTS PAGE ───────────────────────────────── */
     .results-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 24px 60px;
-      text-align: center;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; padding: 36px 20px 56px; text-align: center;
     }
     .result-circle {
-      width: 160px; height: 160px;
-      border-radius: 50%;
+      width: 150px; height: 150px; border-radius: 50%;
       background: linear-gradient(135deg, var(--navy2), var(--blue));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      margin: 0 auto 28px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--white); margin: 0 auto 24px;
       box-shadow: 0 8px 32px rgba(26,58,107,0.35);
       border: 4px solid var(--gold);
     }
-    .result-score-num {
-      font-size: 2.4rem;
-      font-weight: 900;
-      line-height: 1;
-      color: var(--gold);
-    }
-    .result-score-max {
-      font-size: 0.85rem;
-      opacity: 0.75;
-    }
-    .result-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-    .result-grade {
-      font-size: 1.1rem;
-      color: var(--blue);
-      font-weight: 700;
-      margin-bottom: 28px;
-    }
-
-    .result-stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 32px;
-    }
+    .result-score-num { font-size: 2.2rem; font-weight: 900; line-height: 1; color: var(--gold); }
+    .result-score-max { font-size: 0.82rem; opacity: 0.75; }
+    .result-title { font-size: 1.7rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+    .result-grade { font-size: 1rem; color: var(--blue); font-weight: 700; margin-bottom: 24px; }
+    .result-stats { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
     .stat-box {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 16px 24px;
-      box-shadow: var(--shadow);
-      min-width: 120px;
+      background: var(--white); border-radius: 12px;
+      padding: 14px 20px; box-shadow: var(--shadow); min-width: 110px;
     }
-    .stat-box .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--navy); }
-    .stat-box .stat-label { font-size: 0.78rem; color: var(--silver); text-transform: uppercase; letter-spacing: 0.5px; }
-
+    .stat-box .stat-num { font-size: 1.7rem; font-weight: 800; color: var(--navy); }
+    .stat-box .stat-label { font-size: 0.75rem; color: var(--silver); text-transform: uppercase; letter-spacing: 0.5px; }
     .mistakes-list {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      max-width: 680px;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 28px;
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 22px;
+      max-width: 680px; width: 100%;
+      text-align: left; margin-bottom: 24px;
     }
-    .mistakes-list h3 {
-      font-size: 1rem;
-      color: var(--navy);
-      margin-bottom: 16px;
-      font-weight: 700;
-    }
-    .mistake-item {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--light);
-      font-size: 0.88rem;
-    }
+    .mistakes-list h3 { font-size: 0.95rem; color: var(--navy); margin-bottom: 14px; font-weight: 700; }
+    .mistake-item { padding: 9px 0; border-bottom: 1px solid var(--light); font-size: 0.86rem; }
     .mistake-item:last-child { border-bottom: none; }
     .mistake-item .mi-wrong { color: var(--red); text-decoration: line-through; }
     .mistake-item .mi-right { color: var(--green); font-weight: 600; }
-    .mistake-item .mi-exp { color: var(--gray); font-size: 0.82rem; margin-top: 3px; }
-
+    .mistake-item .mi-exp { color: var(--gray); font-size: 0.8rem; margin-top: 3px; }
     .btn-restart {
       background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      border: none;
-      padding: 16px 48px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border-radius: 50px;
-      cursor: pointer;
+      color: var(--white); border: none;
+      padding: 14px 44px; font-size: 1rem; font-weight: 700;
+      border-radius: 50px; cursor: pointer;
       box-shadow: 0 6px 20px rgba(26,58,107,0.3);
-      transition: transform 0.2s;
-      margin-bottom: 12px;
+      transition: transform 0.2s; margin-bottom: 10px;
     }
     .btn-restart:hover { transform: translateY(-2px); }
 
+    /* ═══════════════════════════════════════════════════
+       FLASH WORD GAME
+    ═══════════════════════════════════════════════════ */
+    .flash-body {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 28px 20px 48px;
+    }
+
+    /* Stage indicator */
+    .flash-stage-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--silver);
+      margin-bottom: 20px;
+    }
+
+    /* Main flash card */
+    .flash-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      width: 100%; max-width: 560px;
+      min-height: 240px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .flash-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--purple), var(--orange));
+    }
+
+    /* Countdown bar inside card */
+    .flash-countdown-bar {
+      position: absolute; bottom: 0; left: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--purple), var(--orange));
+      border-radius: 0 0 0 20px;
+      transition: width linear;
+      width: 100%;
+    }
+
+    /* Ready state */
+    .flash-ready { text-align: center; }
+    .flash-ready .fr-icon { font-size: 3rem; margin-bottom: 12px; }
+    .flash-ready .fr-title { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+    .flash-ready .fr-sub { font-size: 0.88rem; color: var(--gray); margin-bottom: 20px; }
+    .flash-ready .fr-diff {
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700; margin-bottom: 18px;
+    }
+
+    /* Word display state */
+    .flash-word-display {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .flash-word-display.visible { display: flex; }
+    .flash-word-text {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 900;
+      color: var(--navy);
+      text-align: center;
+      letter-spacing: 1px;
+      animation: wordPop 0.2s ease;
+    }
+    @keyframes wordPop {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .flash-word-cat {
+      font-size: 0.8rem; color: var(--silver);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    /* Type state */
+    .flash-type { display: none; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+    .flash-type.visible { display: flex; }
+    .flash-type .ft-prompt {
+      font-size: 1rem; font-weight: 600; color: var(--navy); text-align: center;
+    }
+    .flash-type .ft-prompt span { color: var(--purple); }
+    .flash-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid #d1d9e8; border-radius: 12px;
+      font-size: 1.3rem; font-weight: 700;
+      text-align: center; color: var(--navy);
+      outline: none; background: var(--light);
+      letter-spacing: 2px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .flash-input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); background: var(--white); }
+    .flash-input.fi-correct { border-color: var(--green); background: #f0fdf4; }
+    .flash-input.fi-wrong   { border-color: var(--red);   background: #fef2f2; }
+
+    /* Feedback state */
+    .flash-feedback { display: none; flex-direction: column; align-items: center; gap: 8px; width: 100%; text-align: center; }
+    .flash-feedback.visible { display: flex; }
+    .ff-result-icon { font-size: 2.4rem; }
+    .ff-result-text { font-size: 1rem; font-weight: 800; color: var(--navy); }
+    .ff-correct-word { font-size: 1.4rem; font-weight: 900; color: var(--green); }
+    .ff-pts-badge {
+      background: var(--navy); color: var(--gold);
+      padding: 3px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700;
+    }
+    .ff-hint { font-size: 0.82rem; color: var(--gray); font-style: italic; }
+
+    /* Buttons */
+    .btn-flash-show {
+      background: linear-gradient(135deg, var(--purple), var(--orange));
+      color: var(--white); border: none;
+      padding: 14px 40px; font-size: 1rem; font-weight: 700;
+      border-radius: 50px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(124,58,237,0.3);
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .btn-flash-show:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(124,58,237,0.4); }
+
+    .btn-flash-check {
+      background: linear-gradient(135deg, var(--purple), var(--orange));
+      color: var(--white); border: none;
+      padding: 12px 36px; font-size: 1rem; font-weight: 700;
+      border-radius: 12px; cursor: pointer; width: 100%;
+      transition: opacity 0.2s;
+    }
+    .btn-flash-check:hover { opacity: 0.88; }
+
+    .btn-flash-next {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white); border: none;
+      padding: 12px 36px; font-size: 0.95rem; font-weight: 700;
+      border-radius: 12px; cursor: pointer; width: 100%;
+      margin-top: 4px; transition: opacity 0.2s;
+    }
+    .btn-flash-next:hover { opacity: 0.88; }
+
+    /* Flash diff tags */
+    .fdiff-easy   { background: #dcfce7; color: #16a34a; }
+    .fdiff-medium { background: #ede9fe; color: var(--purple); }
+    .fdiff-hard   { background: #fff7ed; color: var(--orange); }
+
+    /* Flash results */
+    .flash-result-circle {
+      width: 150px; height: 150px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--orange));
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--white); margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.3);
+      border: 4px solid var(--gold);
+    }
+
     /* ── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 600px) {
-      .about-hero h1 { font-size: 1.6rem; }
-      .question-card { padding: 20px; }
-      .incorrect-sentence { font-size: 1.05rem; }
+      .about-hero h1 { font-size: 1.55rem; }
+      .question-card, .flash-card { padding: 18px; }
+      .incorrect-sentence { font-size: 1rem; }
       .btn-row { flex-direction: column; }
-      .result-stats { gap: 12px; }
+      .result-stats { gap: 10px; }
+      .game-cards { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
 <!-- ══════════════════════════════════════════════════
-     PAGE 1 — ABOUT
+     PAGE 1 — HOME / ABOUT
 ══════════════════════════════════════════════════ -->
 <div id="page-about" class="page active">
   <div class="about-hero">
     <div class="about-logo-big">
-      <img id="school-logo" src="tfc-logo.png" alt="TFC Logo"
-           onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';" />
-      <div id="logo-fallback" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; background:var(--navy);">
-        <svg viewBox="0 0 80 80" width="70" height="70">
+      <img src="tfc-logo.png" alt="TFC Logo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:var(--navy);">
+        <svg viewBox="0 0 80 80" width="68" height="68">
           <circle cx="40" cy="40" r="38" fill="none" stroke="#c9a227" stroke-width="3"/>
           <text x="40" y="47" text-anchor="middle" fill="white" font-size="26" font-weight="900" font-family="Arial">TFC</text>
         </svg>
@@ -573,70 +585,76 @@
     <div class="teacher-badge">✏️ English Teacher</div>
     <h1>Adam Ameyoud</h1>
     <p class="tagline">Training Formation Center · ENSB Bouzeréah · Algeria</p>
-    <div class="stars-row">
-      <span>★</span><span>★</span><span>★</span>
-    </div>
+    <div class="stars-row"><span>★</span><span>★</span><span>★</span></div>
   </div>
 
   <div class="about-cards">
     <div class="about-card">
       <div class="card-icon">👨‍🏫</div>
       <h2>About Me</h2>
-      <p>My name is <strong>Adam Ameyoud</strong>. I'm 21 years old and passionate about teaching English in a modern, practical way. I believe every learner can master English with the right tools and motivation.</p>
+      <p>My name is <strong>Adam Ameyoud</strong>, 21 years old. I'm passionate about teaching English in a modern, practical way and believe every learner can master it with the right tools.</p>
     </div>
-
     <div class="about-card">
       <div class="card-icon">🎓</div>
       <h2>Education</h2>
       <ul>
         <li>3 years — <strong>University of Badji Mokhtar, Annaba</strong></li>
         <li>Major: <strong>English Language</strong></li>
-        <li>Currently at <strong>ENSB — High Training School of Bouzeréah</strong></li>
+        <li>Currently: <strong>ENSB — High Training School of Bouzeréah</strong></li>
       </ul>
     </div>
-
     <div class="about-card">
       <div class="card-icon">🏫</div>
-      <h2>Teaching Experience</h2>
-      <p>Currently working as an English teacher student at the <strong>middle school</strong> level under the ENSB program, bringing modern, communicative techniques to the classroom.</p>
-    </div>
-
-    <div class="about-card" style="flex-basis: 100%;">
-      <div class="card-icon">🎮</div>
-      <h2>About This Game</h2>
-      <p style="margin-bottom:10px;">
-        <strong>Fix the Teacher</strong> is an interactive grammar game designed for adult English learners. You'll see sentences with real mistakes — the kind people make every day. Your job? Correct them before the teacher does!
-      </p>
-      <ul>
-        <li>20 carefully crafted sentences</li>
-        <li>Instant feedback with clear explanations</li>
-        <li>Score system with streak bonuses</li>
-        <li>Easy → Medium → Hard difficulty</li>
-      </ul>
+      <h2>Teaching</h2>
+      <p>English teacher student at the <strong>middle school level</strong> under the ENSB program, bringing communicative and modern techniques to the classroom every day.</p>
     </div>
   </div>
 
-  <div class="cta-wrap">
-    <button class="btn-primary" onclick="startGame()">🚀 Start the Game</button>
+  <!-- GAME SELECTION -->
+  <div class="game-selector">
+    <h2>🎮 Choose Your Game</h2>
+    <div class="game-cards">
+
+      <div class="game-card fix" onclick="startGame()">
+        <div class="gc-icon">✏️</div>
+        <div class="gc-tag">Grammar · 20 Questions</div>
+        <h3>Fix the Teacher</h3>
+        <p>Spot the grammar mistake in each sentence and type the correct version. Instant feedback + score!</p>
+        <button class="gc-btn">Play Now →</button>
+      </div>
+
+      <div class="game-card flash" onclick="startFlash()">
+        <div class="gc-icon">⚡</div>
+        <div class="gc-tag">Vocabulary · Memory · 30 Rounds</div>
+        <h3>Flash Word</h3>
+        <p>A word flashes on screen for a moment — then it disappears. Type it from memory before time runs out!</p>
+        <button class="gc-btn">Play Now →</button>
+      </div>
+
+    </div>
   </div>
 </div>
 
 
 <!-- ══════════════════════════════════════════════════
-     PAGE 2 — GAME
+     PAGE 2 — FIX THE TEACHER GAME
 ══════════════════════════════════════════════════ -->
 <div id="page-game" class="page">
   <header>
     <div class="logo-wrap">
       <img src="tfc-logo.png" alt="TFC"
-           onerror="this.outerHTML='<svg class=\'logo-svg\' viewBox=\'0 0 80 80\'><circle cx=\'40\' cy=\'40\' r=\'38\' fill=\'#1a3a6b\' stroke=\'#c9a227\' stroke-width=\'3\'/><text x=\'40\' y=\'47\' text-anchor=\'middle\' fill=\'white\' font-size=\'22\' font-weight=\'900\' font-family=\'Arial\'>TFC</text></svg>'"/>
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';"  />
+      <svg style="display:none" viewBox="0 0 80 80" width="44" height="44">
+        <circle cx="40" cy="40" r="38" fill="#1a3a6b" stroke="#c9a227" stroke-width="3"/>
+        <text x="40" y="47" text-anchor="middle" fill="white" font-size="22" font-weight="900" font-family="Arial">TFC</text>
+      </svg>
     </div>
     <div>
       <div class="site-title">Fix the Teacher</div>
       <div class="site-subtitle">TFC · Adam Ameyoud</div>
     </div>
     <div class="spacer"></div>
-    <button class="nav-btn" onclick="showPage('about')">👤 About</button>
+    <button class="nav-btn" onclick="showPage('about')">🏠 Home</button>
   </header>
 
   <div class="game-header">
@@ -650,12 +668,10 @@
 
   <div class="game-body">
     <div class="difficulty-tag" id="diff-tag">Easy</div>
-
     <div class="question-card">
       <div class="question-label">The teacher wrote this — find the mistake:</div>
       <div class="incorrect-sentence" id="incorrect-sent">Loading...</div>
       <div class="grammar-hint" id="grammar-hint-area"></div>
-
       <div class="answer-area">
         <label for="answer-input">Your correction:</label>
         <input type="text" id="answer-input" class="answer-input"
@@ -667,7 +683,6 @@
         </div>
       </div>
     </div>
-
     <div class="feedback-box" id="feedback-box">
       <div class="feedback-title" id="fb-title"></div>
       <div class="feedback-body" id="fb-body"></div>
@@ -678,349 +693,266 @@
 
 
 <!-- ══════════════════════════════════════════════════
-     PAGE 3 — RESULTS
+     PAGE 3 — FIX THE TEACHER RESULTS
 ══════════════════════════════════════════════════ -->
 <div id="page-results" class="page">
   <header>
     <div class="logo-wrap">
       <img src="tfc-logo.png" alt="TFC"
-           onerror="this.outerHTML='<svg class=\'logo-svg\' viewBox=\'0 0 80 80\'><circle cx=\'40\' cy=\'40\' r=\'38\' fill=\'#1a3a6b\' stroke=\'#c9a227\' stroke-width=\'3\'/><text x=\'40\' y=\'47\' text-anchor=\'middle\' fill=\'white\' font-size=\'22\' font-weight=\'900\' font-family=\'Arial\'>TFC</text></svg>'"/>
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+      <svg style="display:none" viewBox="0 0 80 80" width="44" height="44">
+        <circle cx="40" cy="40" r="38" fill="#1a3a6b" stroke="#c9a227" stroke-width="3"/>
+        <text x="40" y="47" text-anchor="middle" fill="white" font-size="22" font-weight="900" font-family="Arial">TFC</text>
+      </svg>
     </div>
-    <div>
-      <div class="site-title">Fix the Teacher</div>
-      <div class="site-subtitle">TFC · Your Results</div>
-    </div>
+    <div><div class="site-title">Your Results</div><div class="site-subtitle">Fix the Teacher</div></div>
   </header>
-
   <div class="results-body">
     <div class="result-circle">
       <div class="result-score-num" id="final-score">0</div>
-      <div class="result-score-max">/ 500 pts</div>
+      <div class="result-score-max">/ 400 pts</div>
     </div>
-
     <div class="result-title" id="result-title">Well Done!</div>
     <div class="result-grade" id="result-grade">Sharp Eye</div>
-
     <div class="result-stats">
-      <div class="stat-box">
-        <div class="stat-num" id="stat-correct">0</div>
-        <div class="stat-label">Correct</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="stat-wrong">0</div>
-        <div class="stat-label">Missed</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="stat-accuracy">0%</div>
-        <div class="stat-label">Accuracy</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="stat-best-streak">0</div>
-        <div class="stat-label">Best Streak</div>
-      </div>
+      <div class="stat-box"><div class="stat-num" id="stat-correct">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-wrong">0</div><div class="stat-label">Missed</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-accuracy">0%</div><div class="stat-label">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-best-streak">0</div><div class="stat-label">Best Streak</div></div>
     </div>
-
     <div class="mistakes-list" id="mistakes-list">
-      <h3>📋 Questions You Missed — Review & Learn</h3>
+      <h3>📋 Sentences You Missed — Review & Learn</h3>
       <div id="mistakes-content"></div>
     </div>
-
     <button class="btn-restart" onclick="startGame()">🔄 Play Again</button>
-    <button class="btn-restart" style="background:transparent; color:var(--navy); box-shadow:none; border:2px solid var(--navy);"
-            onclick="showPage('about')">🏠 Home</button>
+    <button class="btn-restart" style="background:transparent;color:var(--navy);box-shadow:none;border:2px solid var(--navy);" onclick="showPage('about')">🏠 Home</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — FLASH WORD GAME
+══════════════════════════════════════════════════ -->
+<div id="page-flash" class="page">
+  <header>
+    <div class="logo-wrap">
+      <img src="tfc-logo.png" alt="TFC"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+      <svg style="display:none" viewBox="0 0 80 80" width="44" height="44">
+        <circle cx="40" cy="40" r="38" fill="#1a3a6b" stroke="#c9a227" stroke-width="3"/>
+        <text x="40" y="47" text-anchor="middle" fill="white" font-size="22" font-weight="900" font-family="Arial">TFC</text>
+      </svg>
+    </div>
+    <div><div class="site-title">Flash Word</div><div class="site-subtitle">TFC · Memory Challenge</div></div>
+    <div class="spacer"></div>
+    <button class="nav-btn" onclick="showPage('about')">🏠 Home</button>
+  </header>
+
+  <div class="game-header">
+    <div class="score-pill">Score: <span id="f-score-display">0</span></div>
+    <div class="question-counter" id="f-counter">Round 1 / 30</div>
+    <div class="streak-badge" id="f-streak-badge">🔥 <span id="f-streak-num">0</span> streak!</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="f-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="flash-body">
+    <div class="flash-stage-label" id="f-stage-label">Get Ready</div>
+
+    <div class="flash-card" id="flash-card">
+      <div class="flash-countdown-bar" id="flash-cbar" style="width:100%;display:none;"></div>
+
+      <!-- STATE: READY -->
+      <div class="flash-ready" id="f-state-ready">
+        <div class="fr-icon">⚡</div>
+        <div class="fr-title">Watch carefully!</div>
+        <div class="fr-sub">A word will flash briefly. Remember it, then type it.</div>
+        <div class="fr-diff diff-easy" id="f-diff-tag">Easy — 2.5 seconds</div>
+        <button class="btn-flash-show" onclick="flashShowWord()">Show the Word ▶</button>
+      </div>
+
+      <!-- STATE: WORD VISIBLE -->
+      <div class="flash-word-display" id="f-state-word">
+        <div class="flash-word-text" id="f-word-text">Hello</div>
+        <div class="flash-word-cat" id="f-word-cat">Category</div>
+      </div>
+
+      <!-- STATE: TYPE ANSWER -->
+      <div class="flash-type" id="f-state-type">
+        <div class="ft-prompt">What was the word? <span>Type it now!</span></div>
+        <input type="text" id="f-input" class="flash-input"
+               placeholder="_ _ _ _ _"
+               autocomplete="off" autocorrect="off" spellcheck="false" />
+        <button class="btn-flash-check" onclick="flashCheck()">Check ✓</button>
+      </div>
+
+      <!-- STATE: FEEDBACK -->
+      <div class="flash-feedback" id="f-state-feedback">
+        <div class="ff-result-icon" id="ff-icon">✅</div>
+        <div class="ff-result-text" id="ff-text">Correct!</div>
+        <div class="ff-correct-word" id="ff-correct-word"></div>
+        <div class="ff-pts-badge" id="ff-pts"></div>
+        <div class="ff-hint" id="ff-hint"></div>
+        <button class="btn-flash-next" id="f-btn-next" onclick="flashNext()">Next Word →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 5 — FLASH WORD RESULTS
+══════════════════════════════════════════════════ -->
+<div id="page-flash-results" class="page">
+  <header>
+    <div class="logo-wrap">
+      <img src="tfc-logo.png" alt="TFC"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+      <svg style="display:none" viewBox="0 0 80 80" width="44" height="44">
+        <circle cx="40" cy="40" r="38" fill="#1a3a6b" stroke="#c9a227" stroke-width="3"/>
+        <text x="40" y="47" text-anchor="middle" fill="white" font-size="22" font-weight="900" font-family="Arial">TFC</text>
+      </svg>
+    </div>
+    <div><div class="site-title">Flash Word Results</div><div class="site-subtitle">Memory Challenge</div></div>
+  </header>
+  <div class="results-body">
+    <div class="flash-result-circle">
+      <div class="result-score-num" id="f-final-score">0</div>
+      <div class="result-score-max">/ 450 pts</div>
+    </div>
+    <div class="result-title" id="f-result-title">Amazing!</div>
+    <div class="result-grade" id="f-result-grade">Word Champion</div>
+    <div class="result-stats">
+      <div class="stat-box"><div class="stat-num" id="f-stat-correct">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat-box"><div class="stat-num" id="f-stat-wrong">0</div><div class="stat-label">Missed</div></div>
+      <div class="stat-box"><div class="stat-num" id="f-stat-accuracy">0%</div><div class="stat-label">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-num" id="f-stat-streak">0</div><div class="stat-label">Best Streak</div></div>
+    </div>
+    <div class="mistakes-list" id="f-missed-list">
+      <h3>📋 Words You Missed</h3>
+      <div id="f-missed-content"></div>
+    </div>
+    <button class="btn-restart" style="background:linear-gradient(135deg,var(--purple),var(--orange));box-shadow:0 6px 20px rgba(124,58,237,0.3);" onclick="startFlash()">🔄 Play Again</button>
+    <button class="btn-restart" style="background:transparent;color:var(--navy);box-shadow:none;border:2px solid var(--navy);margin-top:4px;" onclick="showPage('about')">🏠 Home</button>
   </div>
 </div>
 
 
 <script>
-/* ── QUESTION DATA ─────────────────────────────── */
-const QUESTIONS = [
-  // EASY
-  {
-    wrong: "He go to work yesterday.",
-    right: "He went to work yesterday.",
-    explain: "Use the past simple 'went' — never the base form 'go' for past actions.",
-    category: "Past Simple",
-    diff: "easy"
-  },
-  {
-    wrong: "She don't like coffee.",
-    right: "She doesn't like coffee.",
-    explain: "Use 'doesn't' with he/she/it in present simple — 'don't' is for I/you/we/they.",
-    category: "Present Simple",
-    diff: "easy"
-  },
-  {
-    wrong: "We was very tired after the class.",
-    right: "We were very tired after the class.",
-    explain: "Use 'were' with we/you/they — 'was' is only for I/he/she/it.",
-    category: "To Be — Past",
-    diff: "easy"
-  },
-  {
-    wrong: "I didn't went to the meeting.",
-    right: "I didn't go to the meeting.",
-    explain: "After 'didn't', always use the base form of the verb, never past tense.",
-    category: "Past Simple — Negation",
-    diff: "easy"
-  },
-  {
-    wrong: "He have a lot of work today.",
-    right: "He has a lot of work today.",
-    explain: "With he/she/it in present simple, 'have' becomes 'has'.",
-    category: "Present Simple",
-    diff: "easy"
-  },
-  {
-    wrong: "I am agree with your idea.",
-    right: "I agree with your idea.",
-    explain: "'Agree' is a verb, not an adjective — never use 'am/is/are' before it.",
-    category: "Verb Usage",
-    diff: "easy"
-  },
-  {
-    wrong: "She can to speak English very well.",
-    right: "She can speak English very well.",
-    explain: "Modal verbs like 'can' are always followed by the bare infinitive, never 'to'.",
-    category: "Modal Verbs",
-    diff: "easy"
-  },
-  // MEDIUM
-  {
-    wrong: "I didn't saw him yesterday.",
-    right: "I didn't see him yesterday.",
-    explain: "After 'didn't', use the base form 'see' — 'saw' is past simple for positive sentences only.",
-    category: "Past Simple — Negation",
-    diff: "medium"
-  },
-  {
-    wrong: "We discussed about the problem.",
-    right: "We discussed the problem.",
-    explain: "'Discuss' is transitive — it never takes 'about' after it.",
-    category: "Verb + Preposition",
-    diff: "medium"
-  },
-  {
-    wrong: "He explained me the lesson.",
-    right: "He explained the lesson to me.",
-    explain: "'Explain' requires 'to' before the person: explain something TO someone.",
-    category: "Verb + Preposition",
-    diff: "medium"
-  },
-  {
-    wrong: "I look forward to see you soon.",
-    right: "I look forward to seeing you soon.",
-    explain: "After 'look forward to', use the -ing form because 'to' here is a preposition.",
-    category: "Gerund After Preposition",
-    diff: "medium"
-  },
-  {
-    wrong: "She very likes this course.",
-    right: "She really likes this course.",
-    explain: "'Very' modifies adjectives, not verbs — use 'really' to intensify a verb.",
-    category: "Adverb Usage",
-    diff: "medium"
-  },
-  {
-    wrong: "I have a big experience in teaching.",
-    right: "I have a lot of experience in teaching.",
-    explain: "'Experience' (uncountable) cannot be described as 'big' — use 'a lot of' instead.",
-    category: "Collocations",
-    diff: "medium"
-  },
-  {
-    wrong: "He don't understand the question.",
-    right: "He doesn't understand the question.",
-    explain: "Third person singular (he/she/it) needs 'doesn't' in present negative sentences.",
-    category: "Present Simple",
-    diff: "medium"
-  },
-  // HARD
-  {
-    wrong: "I am living here since 2 years.",
-    right: "I have been living here for 2 years.",
-    explain: "Use present perfect continuous + 'for' with a duration that continues to now.",
-    category: "Present Perfect Continuous",
-    diff: "hard"
-  },
-  {
-    wrong: "She told me she is busy yesterday.",
-    right: "She told me she was busy yesterday.",
-    explain: "Reported speech shifts the tense back — present 'is' becomes past 'was'.",
-    category: "Reported Speech",
-    diff: "hard"
-  },
-  {
-    wrong: "I enjoy to watch movies in English.",
-    right: "I enjoy watching movies in English.",
-    explain: "After 'enjoy', always use the -ing form, never the infinitive.",
-    category: "Gerund vs Infinitive",
-    diff: "hard"
-  },
-  {
-    wrong: "He is more taller than me.",
-    right: "He is taller than me.",
-    explain: "Never combine 'more' with a short adjective that already takes '-er' — that's a double comparative.",
-    category: "Comparatives",
-    diff: "hard"
-  },
-  {
-    wrong: "I didn't understood the exercise.",
-    right: "I didn't understand the exercise.",
-    explain: "After 'didn't', always use the base form — 'understood' is past tense/past participle.",
-    category: "Past Simple — Negation",
-    diff: "hard"
-  },
-  {
-    wrong: "If I will see him, I will tell him.",
-    right: "If I see him, I will tell him.",
-    explain: "In real conditionals, the if-clause uses present simple, never future 'will'.",
-    category: "Conditionals",
-    diff: "hard"
-  }
-];
-
-/* ── GAME STATE ────────────────────────────────── */
-let state = {
-  questions: [],
-  index: 0,
-  score: 0,
-  streak: 0,
-  bestStreak: 0,
-  correct: 0,
-  wrong: 0,
-  hintUsed: false,
-  answered: false,
-  missedList: []
-};
-
-/* ── PAGE NAVIGATION ───────────────────────────── */
+/* ════════════════════════════════════════════════════
+   SHARED
+════════════════════════════════════════════════════ */
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   window.scrollTo(0, 0);
 }
 
-/* ── GAME INIT ─────────────────────────────────── */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function normalise(str) {
+  return str.trim().toLowerCase().replace(/[.,!?;:'"-]+$/g, '').replace(/\s+/g, ' ');
+}
+
+/* ════════════════════════════════════════════════════
+   GAME 1 — FIX THE TEACHER
+════════════════════════════════════════════════════ */
+const QUESTIONS = [
+  { wrong:"He go to work yesterday.", right:"He went to work yesterday.", explain:"Use past simple 'went' for completed past actions.", category:"Past Simple", diff:"easy" },
+  { wrong:"She don't like coffee.", right:"She doesn't like coffee.", explain:"Use 'doesn't' with he/she/it in present simple.", category:"Present Simple", diff:"easy" },
+  { wrong:"We was very tired after the class.", right:"We were very tired after the class.", explain:"Use 'were' with we/you/they — 'was' is only for I/he/she/it.", category:"To Be — Past", diff:"easy" },
+  { wrong:"I didn't went to the meeting.", right:"I didn't go to the meeting.", explain:"After 'didn't', always use the base form of the verb.", category:"Past Simple — Negation", diff:"easy" },
+  { wrong:"He have a lot of work today.", right:"He has a lot of work today.", explain:"With he/she/it in present simple, 'have' becomes 'has'.", category:"Present Simple", diff:"easy" },
+  { wrong:"I am agree with your idea.", right:"I agree with your idea.", explain:"'Agree' is a verb — never use 'am/is/are' before it.", category:"Verb Usage", diff:"easy" },
+  { wrong:"She can to speak English very well.", right:"She can speak English very well.", explain:"Modal verbs like 'can' are followed by the bare infinitive — no 'to'.", category:"Modal Verbs", diff:"easy" },
+  { wrong:"I didn't saw him yesterday.", right:"I didn't see him yesterday.", explain:"After 'didn't', use the base form 'see', not past 'saw'.", category:"Past Simple — Negation", diff:"medium" },
+  { wrong:"We discussed about the problem.", right:"We discussed the problem.", explain:"'Discuss' is transitive — it never takes 'about' after it.", category:"Verb + Preposition", diff:"medium" },
+  { wrong:"He explained me the lesson.", right:"He explained the lesson to me.", explain:"'Explain' needs 'to' before the person: explain something TO someone.", category:"Verb + Preposition", diff:"medium" },
+  { wrong:"I look forward to see you soon.", right:"I look forward to seeing you soon.", explain:"After 'look forward to', use the -ing form — 'to' here is a preposition.", category:"Gerund After Preposition", diff:"medium" },
+  { wrong:"She very likes this course.", right:"She really likes this course.", explain:"'Very' modifies adjectives; use 'really' to intensify a verb.", category:"Adverb Usage", diff:"medium" },
+  { wrong:"I have a big experience in teaching.", right:"I have a lot of experience in teaching.", explain:"'Experience' (uncountable) takes 'a lot of', not 'a big'.", category:"Collocations", diff:"medium" },
+  { wrong:"He don't understand the question.", right:"He doesn't understand the question.", explain:"Third person singular (he/she/it) needs 'doesn't' in negatives.", category:"Present Simple", diff:"medium" },
+  { wrong:"I am living here since 2 years.", right:"I have been living here for 2 years.", explain:"Use present perfect continuous + 'for' with a duration still in progress.", category:"Present Perfect Continuous", diff:"hard" },
+  { wrong:"She told me she is busy yesterday.", right:"She told me she was busy yesterday.", explain:"Reported speech shifts the tense back — 'is' becomes 'was'.", category:"Reported Speech", diff:"hard" },
+  { wrong:"I enjoy to watch movies in English.", right:"I enjoy watching movies in English.", explain:"After 'enjoy', always use the -ing form, never the infinitive.", category:"Gerund vs Infinitive", diff:"hard" },
+  { wrong:"He is more taller than me.", right:"He is taller than me.", explain:"Never use 'more' with short adjectives that already take '-er'.", category:"Comparatives", diff:"hard" },
+  { wrong:"I didn't understood the exercise.", right:"I didn't understand the exercise.", explain:"After 'didn't', always use the base form — not past tense.", category:"Past Simple — Negation", diff:"hard" },
+  { wrong:"If I will see him, I will tell him.", right:"If I see him, I will tell him.", explain:"In real conditionals, the if-clause uses present simple, never 'will'.", category:"Conditionals", diff:"hard" }
+];
+
+let state = { questions:[], index:0, score:0, streak:0, bestStreak:0, correct:0, wrong:0, hintUsed:false, answered:false, missedList:[] };
+
 function startGame() {
-  state.questions = shuffle([...QUESTIONS]);
-  state.index = 0;
-  state.score = 0;
-  state.streak = 0;
-  state.bestStreak = 0;
-  state.correct = 0;
-  state.wrong = 0;
-  state.missedList = [];
+  state.questions = shuffle(QUESTIONS);
+  state.index = 0; state.score = 0; state.streak = 0;
+  state.bestStreak = 0; state.correct = 0; state.wrong = 0; state.missedList = [];
   showPage('game');
   loadQuestion();
 }
 
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
 function loadQuestion() {
   const q = state.questions[state.index];
-  state.hintUsed = false;
-  state.answered = false;
+  state.hintUsed = false; state.answered = false;
 
-  // Header
-  document.getElementById('q-counter').textContent =
-    `Question ${state.index + 1} / ${state.questions.length}`;
+  document.getElementById('q-counter').textContent = `Question ${state.index + 1} / ${state.questions.length}`;
   document.getElementById('score-display').textContent = state.score;
-  document.getElementById('progress-fill').style.width =
-    `${(state.index / state.questions.length) * 100}%`;
+  document.getElementById('progress-fill').style.width = `${(state.index / state.questions.length) * 100}%`;
 
-  // Streak badge
   const badge = document.getElementById('streak-badge');
-  if (state.streak >= 2) {
-    badge.classList.add('show');
-    document.getElementById('streak-num').textContent = state.streak;
-  } else {
-    badge.classList.remove('show');
-  }
+  if (state.streak >= 2) { badge.classList.add('show'); document.getElementById('streak-num').textContent = state.streak; }
+  else badge.classList.remove('show');
 
-  // Difficulty tag
   const tag = document.getElementById('diff-tag');
   tag.textContent = q.diff.charAt(0).toUpperCase() + q.diff.slice(1);
   tag.className = 'difficulty-tag diff-' + q.diff;
 
-  // Question
   document.getElementById('incorrect-sent').textContent = q.wrong;
   document.getElementById('grammar-hint-area').textContent = `Category: ${q.category}`;
 
-  // Input
   const input = document.getElementById('answer-input');
-  input.value = '';
-  input.className = 'answer-input';
-  input.disabled = false;
-  input.focus();
-
-  // Buttons
+  input.value = ''; input.className = 'answer-input'; input.disabled = false; input.focus();
   document.getElementById('btn-check').disabled = false;
   document.getElementById('btn-hint').disabled = false;
   document.getElementById('btn-hint').textContent = '💡 Hint (−10 pts)';
-
-  // Hide feedback
-  const fb = document.getElementById('feedback-box');
-  fb.className = 'feedback-box';
+  document.getElementById('feedback-box').className = 'feedback-box';
 }
 
-/* ── HINT ──────────────────────────────────────── */
 function showHint() {
   if (state.hintUsed) return;
   state.hintUsed = true;
-  const q = state.questions[state.index];
-  document.getElementById('grammar-hint-area').textContent =
-    `💡 Hint: ${q.explain}`;
+  document.getElementById('grammar-hint-area').textContent = `💡 ${state.questions[state.index].explain}`;
   document.getElementById('btn-hint').disabled = true;
   document.getElementById('btn-hint').textContent = 'Hint used';
-}
-
-/* ── ANSWER CHECK ──────────────────────────────── */
-function normalise(str) {
-  return str.trim().toLowerCase()
-    .replace(/[.,!?;:]+$/g, '')
-    .replace(/\s+/g, ' ');
 }
 
 function checkAnswer() {
   if (state.answered) return;
   state.answered = true;
-
   const q = state.questions[state.index];
   const input = document.getElementById('answer-input');
-  const userAnswer = input.value;
+  if (!input.value.trim()) { state.answered = false; input.focus(); return; }
 
-  if (!userAnswer.trim()) {
-    state.answered = false;
-    input.focus();
-    return;
-  }
-
-  const isCorrect = normalise(userAnswer) === normalise(q.right);
+  const isCorrect = normalise(input.value) === normalise(q.right);
   const pts = isCorrect ? (state.hintUsed ? 10 : 20) : 0;
 
   if (isCorrect) {
-    state.correct++;
-    state.streak++;
+    state.correct++; state.streak++;
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
-
-    let bonusPts = 0;
-    if (state.streak > 0 && state.streak % 3 === 0) bonusPts = 15;
-    state.score += pts + bonusPts;
-
+    const bonus = (state.streak % 3 === 0) ? 15 : 0;
+    state.score += pts + bonus;
     input.className = 'answer-input correct';
-    showFeedback(true, pts, bonusPts, q);
+    showFeedback(true, pts, bonus, q);
   } else {
-    state.wrong++;
-    state.streak = 0;
-    state.missedList.push(q);
-
+    state.wrong++; state.streak = 0; state.missedList.push(q);
     input.className = 'answer-input wrong';
     showFeedback(false, 0, 0, q);
   }
@@ -1028,110 +960,262 @@ function checkAnswer() {
   document.getElementById('score-display').textContent = state.score;
   document.getElementById('btn-check').disabled = true;
   document.getElementById('btn-hint').disabled = true;
-
   const badge = document.getElementById('streak-badge');
-  if (state.streak >= 2) {
-    badge.classList.add('show');
-    document.getElementById('streak-num').textContent = state.streak;
-  } else {
-    badge.classList.remove('show');
-  }
+  if (state.streak >= 2) { badge.classList.add('show'); document.getElementById('streak-num').textContent = state.streak; }
+  else badge.classList.remove('show');
 }
 
 function showFeedback(correct, pts, bonus, q) {
   const fb = document.getElementById('feedback-box');
   const title = document.getElementById('fb-title');
   const body = document.getElementById('fb-body');
-
   if (correct) {
     fb.className = 'feedback-box show correct-fb';
-    let titleText = pts === 10
-      ? '✅ Correct! (Hint used)'
-      : '✅ Nice Catch!';
-    let ptsText = `+${pts}${bonus ? ' + 🔥 +' + bonus + ' streak' : ''}`;
-    title.innerHTML = `${titleText} <span class="pts">${ptsText}</span>`;
-    body.innerHTML = `
-      <div class="correct-line">✔ ${q.right}</div>
-      <div class="explain">${q.explain}</div>
-    `;
+    title.innerHTML = `${pts === 10 ? '✅ Correct! (hint used)' : '✅ Nice catch!'} <span class="pts">+${pts}${bonus ? ' +🔥' + bonus : ''}</span>`;
+    body.innerHTML = `<div class="correct-line">✔ ${q.right}</div><div class="explain">${q.explain}</div>`;
   } else {
     fb.className = 'feedback-box show wrong-fb';
-    title.innerHTML = `❌ Not quite — here's the correction:`;
-    body.innerHTML = `
-      <div class="correct-line">✔ ${q.right}</div>
-      <div class="explain">${q.explain}</div>
-    `;
+    title.innerHTML = `❌ Not quite — here's the fix:`;
+    body.innerHTML = `<div class="correct-line">✔ ${q.right}</div><div class="explain">${q.explain}</div>`;
   }
-
-  const nextBtn = document.getElementById('btn-next');
-  if (state.index >= state.questions.length - 1) {
-    nextBtn.textContent = 'See My Results 🏆';
-  } else {
-    nextBtn.textContent = 'Next Question →';
-  }
+  document.getElementById('btn-next').textContent = state.index >= state.questions.length - 1 ? 'See Results 🏆' : 'Next Question →';
 }
 
-/* ── NEXT QUESTION ─────────────────────────────── */
 function nextQuestion() {
   state.index++;
-  if (state.index >= state.questions.length) {
-    showResults();
-  } else {
-    loadQuestion();
-  }
+  if (state.index >= state.questions.length) showResults();
+  else loadQuestion();
 }
 
-/* ── RESULTS ───────────────────────────────────── */
 function showResults() {
   document.getElementById('progress-fill').style.width = '100%';
-
   document.getElementById('final-score').textContent = state.score;
   document.getElementById('stat-correct').textContent = state.correct;
   document.getElementById('stat-wrong').textContent = state.wrong;
-  document.getElementById('stat-accuracy').textContent =
-    Math.round((state.correct / state.questions.length) * 100) + '%';
+  document.getElementById('stat-accuracy').textContent = Math.round((state.correct / state.questions.length) * 100) + '%';
   document.getElementById('stat-best-streak').textContent = state.bestStreak;
 
-  const maxScore = state.questions.length * 20;
-  const pct = state.score / maxScore;
-  let grade, emoji;
-  if (pct >= 0.9)      { grade = 'Master Corrector';  emoji = '🏆'; }
-  else if (pct >= 0.7) { grade = 'Sharp Eye';          emoji = '👁️'; }
-  else if (pct >= 0.5) { grade = 'Getting There';      emoji = '📈'; }
-  else                 { grade = 'Keep Practising';    emoji = '💪'; }
+  const pct = state.score / (state.questions.length * 20);
+  const grades = [[0.9,'🏆 Master Corrector'],[0.7,'👁️ Sharp Eye'],[0.5,'📈 Getting There'],[0,'💪 Keep Practising']];
+  const [,grade] = grades.find(([t]) => pct >= t);
+  document.getElementById('result-title').textContent = grade;
+  document.getElementById('result-grade').textContent = `${state.correct} / ${state.questions.length} correct · ${state.score} points`;
 
-  document.getElementById('result-title').textContent = `${emoji} ${grade}`;
-  document.getElementById('result-grade').textContent =
-    `${state.correct} / ${state.questions.length} correct · ${state.score} points`;
-
-  const missedDiv = document.getElementById('mistakes-content');
-  const listWrap = document.getElementById('mistakes-list');
-
-  if (state.missedList.length === 0) {
-    listWrap.style.display = 'none';
-  } else {
-    listWrap.style.display = 'block';
-    missedDiv.innerHTML = state.missedList.map(q => `
-      <div class="mistake-item">
-        <div class="mi-wrong">❌ ${q.wrong}</div>
-        <div class="mi-right">✅ ${q.right}</div>
-        <div class="mi-exp">${q.explain}</div>
-      </div>
-    `).join('');
+  const wrap = document.getElementById('mistakes-list');
+  if (state.missedList.length === 0) { wrap.style.display = 'none'; }
+  else {
+    wrap.style.display = 'block';
+    document.getElementById('mistakes-content').innerHTML = state.missedList.map(q =>
+      `<div class="mistake-item"><div class="mi-wrong">❌ ${q.wrong}</div><div class="mi-right">✅ ${q.right}</div><div class="mi-exp">${q.explain}</div></div>`
+    ).join('');
   }
-
   showPage('results');
 }
 
-/* ── KEYBOARD SUPPORT ──────────────────────────── */
-document.getElementById('answer-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    if (!state.answered) {
-      checkAnswer();
-    } else {
-      nextQuestion();
-    }
+document.getElementById('answer-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { if (!state.answered) checkAnswer(); else nextQuestion(); }
+});
+
+
+/* ════════════════════════════════════════════════════
+   GAME 2 — FLASH WORD
+════════════════════════════════════════════════════ */
+const FLASH_WORDS = [
+  // EASY — 2.5 seconds
+  { word:"happy",        hint:"feeling joy",              cat:"Adjective", diff:"easy",   ms:2500 },
+  { word:"travel",       hint:"going from place to place",cat:"Verb/Noun", diff:"easy",   ms:2500 },
+  { word:"kitchen",      hint:"room where you cook",      cat:"Noun",      diff:"easy",   ms:2500 },
+  { word:"morning",      hint:"early part of the day",    cat:"Noun",      diff:"easy",   ms:2500 },
+  { word:"office",       hint:"place where you work",     cat:"Noun",      diff:"easy",   ms:2500 },
+  { word:"teacher",      hint:"person who educates",      cat:"Noun",      diff:"easy",   ms:2500 },
+  { word:"nervous",      hint:"feeling anxious",          cat:"Adjective", diff:"easy",   ms:2500 },
+  { word:"weekend",      hint:"Saturday and Sunday",      cat:"Noun",      diff:"easy",   ms:2500 },
+  { word:"friendly",     hint:"kind and sociable",        cat:"Adjective", diff:"easy",   ms:2500 },
+  { word:"meeting",      hint:"people gather to talk",    cat:"Noun",      diff:"easy",   ms:2500 },
+
+  // MEDIUM — 2 seconds
+  { word:"comfortable",  hint:"physically relaxed",       cat:"Adjective", diff:"medium", ms:2000 },
+  { word:"appointment",  hint:"scheduled meeting",        cat:"Noun",      diff:"medium", ms:2000 },
+  { word:"vocabulary",   hint:"set of words you know",    cat:"Noun",      diff:"medium", ms:2000 },
+  { word:"responsible",  hint:"accountable for actions",  cat:"Adjective", diff:"medium", ms:2000 },
+  { word:"disappointed", hint:"let down, not satisfied",  cat:"Adjective", diff:"medium", ms:2000 },
+  { word:"professional", hint:"skilled and competent",    cat:"Adjective", diff:"medium", ms:2000 },
+  { word:"communicate",  hint:"share information",        cat:"Verb",      diff:"medium", ms:2000 },
+  { word:"achievement",  hint:"something successfully done",cat:"Noun",   diff:"medium", ms:2000 },
+  { word:"neighbourhood",hint:"area where you live",      cat:"Noun",      diff:"medium", ms:2000 },
+  { word:"experienced",  hint:"having knowledge from practice",cat:"Adj", diff:"medium", ms:2000 },
+
+  // HARD — 1.5 seconds
+  { word:"unfortunately",hint:"used to express regret",   cat:"Adverb",    diff:"hard",   ms:1500 },
+  { word:"approximately",hint:"roughly, not exactly",     cat:"Adverb",    diff:"hard",   ms:1500 },
+  { word:"accommodation",hint:"a place to stay",          cat:"Noun",      diff:"hard",   ms:1500 },
+  { word:"embarrassed",  hint:"feeling ashamed or awkward",cat:"Adjective",diff:"hard",   ms:1500 },
+  { word:"recommendation",hint:"advice or suggestion",    cat:"Noun",      diff:"hard",   ms:1500 },
+  { word:"entrepreneur", hint:"someone who starts a business",cat:"Noun",  diff:"hard",   ms:1500 },
+  { word:"pronunciation",hint:"how a word is said aloud", cat:"Noun",      diff:"hard",   ms:1500 },
+  { word:"conscientious",hint:"very careful and thorough",cat:"Adjective", diff:"hard",   ms:1500 },
+  { word:"unnecessary",  hint:"not needed",               cat:"Adjective", diff:"hard",   ms:1500 },
+  { word:"particularly", hint:"especially, specifically", cat:"Adverb",    diff:"hard",   ms:1500 },
+];
+
+let fState = {
+  words: [], index: 0, score: 0,
+  streak: 0, bestStreak: 0,
+  correct: 0, wrong: 0,
+  missedList: [],
+  flashTimer: null,
+  cbarInterval: null
+};
+
+function startFlash() {
+  clearTimeout(fState.flashTimer);
+  clearInterval(fState.cbarInterval);
+  fState.words = shuffle(FLASH_WORDS);
+  fState.index = 0; fState.score = 0;
+  fState.streak = 0; fState.bestStreak = 0;
+  fState.correct = 0; fState.wrong = 0; fState.missedList = [];
+  showPage('flash');
+  flashLoadRound();
+}
+
+function flashLoadRound() {
+  const w = fState.words[fState.index];
+
+  document.getElementById('f-counter').textContent = `Round ${fState.index + 1} / ${fState.words.length}`;
+  document.getElementById('f-score-display').textContent = fState.score;
+  document.getElementById('f-progress-fill').style.width = `${(fState.index / fState.words.length) * 100}%`;
+
+  const badge = document.getElementById('f-streak-badge');
+  if (fState.streak >= 2) { badge.classList.add('show'); document.getElementById('f-streak-num').textContent = fState.streak; }
+  else badge.classList.remove('show');
+
+  // Difficulty tag
+  const dtag = document.getElementById('f-diff-tag');
+  const labels = { easy:'Easy — 2.5 seconds', medium:'Medium — 2 seconds', hard:'Hard — 1.5 seconds' };
+  const dclass = { easy:'diff-easy', medium:'diff-medium', hard:'diff-hard' };
+  dtag.textContent = labels[w.diff];
+  dtag.className = 'fr-diff ' + dclass[w.diff];
+
+  document.getElementById('f-stage-label').textContent = 'Get Ready';
+  flashSetState('ready');
+
+  // reset countdown bar
+  const cbar = document.getElementById('flash-cbar');
+  cbar.style.display = 'none';
+  cbar.style.transition = 'none';
+  cbar.style.width = '100%';
+
+  const inp = document.getElementById('f-input');
+  inp.value = ''; inp.className = 'flash-input';
+}
+
+function flashSetState(state) {
+  document.getElementById('f-state-ready').style.display    = state === 'ready'    ? 'block' : 'none';
+  document.getElementById('f-state-word').className  = 'flash-word-display' + (state === 'word'     ? ' visible' : '');
+  document.getElementById('f-state-type').className  = 'flash-type'         + (state === 'type'     ? ' visible' : '');
+  document.getElementById('f-state-feedback').className = 'flash-feedback'  + (state === 'feedback' ? ' visible' : '');
+}
+
+function flashShowWord() {
+  const w = fState.words[fState.index];
+  document.getElementById('f-word-text').textContent = w.word;
+  document.getElementById('f-word-cat').textContent  = w.cat;
+  document.getElementById('f-stage-label').textContent = 'Memorise it!';
+  flashSetState('word');
+
+  // Countdown bar
+  const cbar = document.getElementById('flash-cbar');
+  cbar.style.display = 'block';
+  cbar.style.transition = 'none';
+  cbar.style.width = '100%';
+  // tiny delay so transition resets
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      cbar.style.transition = `width ${w.ms}ms linear`;
+      cbar.style.width = '0%';
+    });
+  });
+
+  fState.flashTimer = setTimeout(() => {
+    cbar.style.display = 'none';
+    document.getElementById('f-stage-label').textContent = 'Now type it!';
+    flashSetState('type');
+    document.getElementById('f-input').focus();
+  }, w.ms);
+}
+
+function flashCheck() {
+  const w = fState.words[fState.index];
+  const inp = document.getElementById('f-input');
+  const val = inp.value.trim();
+  if (!val) { inp.focus(); return; }
+
+  const isCorrect = normalise(val) === normalise(w.word);
+  const pts = isCorrect ? 15 : 0;
+
+  if (isCorrect) {
+    fState.correct++; fState.streak++;
+    if (fState.streak > fState.bestStreak) fState.bestStreak = fState.streak;
+    const bonus = (fState.streak % 3 === 0) ? 10 : 0;
+    fState.score += pts + bonus;
+    inp.className = 'flash-input fi-correct';
+    flashShowFeedback(true, pts, bonus, w);
+  } else {
+    fState.wrong++; fState.streak = 0; fState.missedList.push(w);
+    inp.className = 'flash-input fi-wrong';
+    flashShowFeedback(false, 0, 0, w);
   }
+
+  document.getElementById('f-score-display').textContent = fState.score;
+  const badge = document.getElementById('f-streak-badge');
+  if (fState.streak >= 2) { badge.classList.add('show'); document.getElementById('f-streak-num').textContent = fState.streak; }
+  else badge.classList.remove('show');
+}
+
+function flashShowFeedback(correct, pts, bonus, w) {
+  document.getElementById('ff-icon').textContent      = correct ? '✅' : '❌';
+  document.getElementById('ff-text').textContent      = correct ? 'Perfect memory!' : 'Not quite!';
+  document.getElementById('ff-correct-word').textContent = w.word;
+  document.getElementById('ff-pts').textContent       = correct ? `+${pts}${bonus ? ' + 🔥 +' + bonus : ''} pts` : '0 pts';
+  document.getElementById('ff-hint').textContent      = w.hint;
+  document.getElementById('f-btn-next').textContent   = fState.index >= fState.words.length - 1 ? 'See Results 🏆' : 'Next Word →';
+  document.getElementById('f-stage-label').textContent = correct ? 'Correct!' : 'The word was...';
+  flashSetState('feedback');
+}
+
+function flashNext() {
+  fState.index++;
+  if (fState.index >= fState.words.length) flashShowResults();
+  else flashLoadRound();
+}
+
+function flashShowResults() {
+  document.getElementById('f-progress-fill').style.width = '100%';
+  document.getElementById('f-final-score').textContent = fState.score;
+  document.getElementById('f-stat-correct').textContent = fState.correct;
+  document.getElementById('f-stat-wrong').textContent = fState.wrong;
+  document.getElementById('f-stat-accuracy').textContent = Math.round((fState.correct / fState.words.length) * 100) + '%';
+  document.getElementById('f-stat-streak').textContent = fState.bestStreak;
+
+  const pct = fState.correct / fState.words.length;
+  const grades = [[0.9,'🏆 Word Champion'],[0.7,'⚡ Flash Master'],[0.5,'📈 Getting Sharper'],[0,'💪 Keep Training']];
+  const [,grade] = grades.find(([t]) => pct >= t);
+  document.getElementById('f-result-title').textContent = grade;
+  document.getElementById('f-result-grade').textContent = `${fState.correct} / ${fState.words.length} correct · ${fState.score} points`;
+
+  const wrap = document.getElementById('f-missed-list');
+  if (fState.missedList.length === 0) { wrap.style.display = 'none'; }
+  else {
+    wrap.style.display = 'block';
+    document.getElementById('f-missed-content').innerHTML = fState.missedList.map(w =>
+      `<div class="mistake-item"><div class="mi-wrong">❌ You missed: <strong>${w.word}</strong></div><div class="mi-exp">💡 ${w.hint} (${w.cat})</div></div>`
+    ).join('');
+  }
+  showPage('flash-results');
+}
+
+document.getElementById('f-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') flashCheck();
 });
 </script>
 </body>
