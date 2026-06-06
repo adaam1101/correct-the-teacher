@@ -625,9 +625,9 @@
 
       <div class="game-card flash" onclick="startFlash()">
         <div class="gc-icon">⚡</div>
-        <div class="gc-tag">Vocabulary · Memory · 30 Rounds</div>
+        <div class="gc-tag">A1 · A2 · B1 · Memory · 30 Rounds</div>
         <h3>Flash Word</h3>
-        <p>A word flashes on screen for a moment — then it disappears. Type it from memory before time runs out!</p>
+        <p>A word flashes on screen for a few seconds — then it disappears. Type it from memory. Starts very easy!</p>
         <button class="gc-btn">Play Now →</button>
       </div>
 
@@ -1021,41 +1021,41 @@ document.getElementById('answer-input').addEventListener('keydown', e => {
    GAME 2 — FLASH WORD
 ════════════════════════════════════════════════════ */
 const FLASH_WORDS = [
-  // EASY — 2.5 seconds
-  { word:"happy",        hint:"feeling joy",              cat:"Adjective", diff:"easy",   ms:2500 },
-  { word:"travel",       hint:"going from place to place",cat:"Verb/Noun", diff:"easy",   ms:2500 },
-  { word:"kitchen",      hint:"room where you cook",      cat:"Noun",      diff:"easy",   ms:2500 },
-  { word:"morning",      hint:"early part of the day",    cat:"Noun",      diff:"easy",   ms:2500 },
-  { word:"office",       hint:"place where you work",     cat:"Noun",      diff:"easy",   ms:2500 },
-  { word:"teacher",      hint:"person who educates",      cat:"Noun",      diff:"easy",   ms:2500 },
-  { word:"nervous",      hint:"feeling anxious",          cat:"Adjective", diff:"easy",   ms:2500 },
-  { word:"weekend",      hint:"Saturday and Sunday",      cat:"Noun",      diff:"easy",   ms:2500 },
-  { word:"friendly",     hint:"kind and sociable",        cat:"Adjective", diff:"easy",   ms:2500 },
-  { word:"meeting",      hint:"people gather to talk",    cat:"Noun",      diff:"easy",   ms:2500 },
+  // A1 — BEGINNER — 3 seconds (simple 3–5 letter words)
+  { word:"cat",    hint:"a small pet animal that says meow", cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"bed",    hint:"you sleep on this",                 cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"hot",    hint:"the opposite of cold",              cat:"Adjective", diff:"easy", ms:3000 },
+  { word:"milk",   hint:"a white drink from a cow",          cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"door",   hint:"you open it to enter a room",       cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"red",    hint:"the colour of fire",                cat:"Colour",    diff:"easy", ms:3000 },
+  { word:"book",   hint:"you read this",                     cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"bus",    hint:"a big vehicle for many people",     cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"hand",   hint:"part of your body — five fingers",  cat:"Noun",      diff:"easy", ms:3000 },
+  { word:"rain",   hint:"water that falls from the sky",     cat:"Noun",      diff:"easy", ms:3000 },
 
-  // MEDIUM — 2 seconds
-  { word:"comfortable",  hint:"physically relaxed",       cat:"Adjective", diff:"medium", ms:2000 },
-  { word:"appointment",  hint:"scheduled meeting",        cat:"Noun",      diff:"medium", ms:2000 },
-  { word:"vocabulary",   hint:"set of words you know",    cat:"Noun",      diff:"medium", ms:2000 },
-  { word:"responsible",  hint:"accountable for actions",  cat:"Adjective", diff:"medium", ms:2000 },
-  { word:"disappointed", hint:"let down, not satisfied",  cat:"Adjective", diff:"medium", ms:2000 },
-  { word:"professional", hint:"skilled and competent",    cat:"Adjective", diff:"medium", ms:2000 },
-  { word:"communicate",  hint:"share information",        cat:"Verb",      diff:"medium", ms:2000 },
-  { word:"achievement",  hint:"something successfully done",cat:"Noun",   diff:"medium", ms:2000 },
-  { word:"neighbourhood",hint:"area where you live",      cat:"Noun",      diff:"medium", ms:2000 },
-  { word:"experienced",  hint:"having knowledge from practice",cat:"Adj", diff:"medium", ms:2000 },
+  // A2 — ELEMENTARY — 2.5 seconds (everyday life words)
+  { word:"hungry",  hint:"you feel this before eating",      cat:"Adjective", diff:"medium", ms:2500 },
+  { word:"market",  hint:"a place where you buy food",       cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"sister",  hint:"a girl in your family",            cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"dinner",  hint:"the meal you eat in the evening",  cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"doctor",  hint:"person who helps you when sick",   cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"cloudy",  hint:"the sky is full of clouds",        cat:"Adjective", diff:"medium", ms:2500 },
+  { word:"birthday",hint:"the day you were born",            cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"school",  hint:"children go here to learn",        cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"wallet",  hint:"you keep money inside this",       cat:"Noun",      diff:"medium", ms:2500 },
+  { word:"listen",  hint:"to pay attention with your ears",  cat:"Verb",      diff:"medium", ms:2500 },
 
-  // HARD — 1.5 seconds
-  { word:"unfortunately",hint:"used to express regret",   cat:"Adverb",    diff:"hard",   ms:1500 },
-  { word:"approximately",hint:"roughly, not exactly",     cat:"Adverb",    diff:"hard",   ms:1500 },
-  { word:"accommodation",hint:"a place to stay",          cat:"Noun",      diff:"hard",   ms:1500 },
-  { word:"embarrassed",  hint:"feeling ashamed or awkward",cat:"Adjective",diff:"hard",   ms:1500 },
-  { word:"recommendation",hint:"advice or suggestion",    cat:"Noun",      diff:"hard",   ms:1500 },
-  { word:"entrepreneur", hint:"someone who starts a business",cat:"Noun",  diff:"hard",   ms:1500 },
-  { word:"pronunciation",hint:"how a word is said aloud", cat:"Noun",      diff:"hard",   ms:1500 },
-  { word:"conscientious",hint:"very careful and thorough",cat:"Adjective", diff:"hard",   ms:1500 },
-  { word:"unnecessary",  hint:"not needed",               cat:"Adjective", diff:"hard",   ms:1500 },
-  { word:"particularly", hint:"especially, specifically", cat:"Adverb",    diff:"hard",   ms:1500 },
+  // B1 — PRE-INTERMEDIATE — 2 seconds (common but slightly longer words)
+  { word:"nervous",  hint:"feeling worried before something important", cat:"Adjective", diff:"hard", ms:2000 },
+  { word:"explain",  hint:"to make something clear to someone",         cat:"Verb",      diff:"hard", ms:2000 },
+  { word:"kitchen",  hint:"the room in the house where you cook",       cat:"Noun",      diff:"hard", ms:2000 },
+  { word:"weather",  hint:"sun, rain, wind — how the sky feels today",  cat:"Noun",      diff:"hard", ms:2000 },
+  { word:"station",  hint:"where you catch a train or bus",             cat:"Noun",      diff:"hard", ms:2000 },
+  { word:"patient",  hint:"calm, able to wait without getting angry",   cat:"Adjective", diff:"hard", ms:2000 },
+  { word:"holiday",  hint:"days when you don't work or study",          cat:"Noun",      diff:"hard", ms:2000 },
+  { word:"excited",  hint:"very happy and full of energy about something",cat:"Adjective",diff:"hard",ms:2000 },
+  { word:"library",  hint:"a quiet place full of books to borrow",      cat:"Noun",      diff:"hard", ms:2000 },
+  { word:"message",  hint:"a short text you send to someone",           cat:"Noun",      diff:"hard", ms:2000 },
 ];
 
 let fState = {
@@ -1091,7 +1091,7 @@ function flashLoadRound() {
 
   // Difficulty tag
   const dtag = document.getElementById('f-diff-tag');
-  const labels = { easy:'Easy — 2.5 seconds', medium:'Medium — 2 seconds', hard:'Hard — 1.5 seconds' };
+  const labels = { easy:'A1 Beginner — 3 seconds', medium:'A2 Elementary — 2.5 seconds', hard:'B1 Pre-Intermediate — 2 seconds' };
   const dclass = { easy:'diff-easy', medium:'diff-medium', hard:'diff-hard' };
   dtag.textContent = labels[w.diff];
   dtag.className = 'fr-diff ' + dclass[w.diff];
